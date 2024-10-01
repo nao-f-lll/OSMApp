@@ -1,10 +1,8 @@
 <resources>
     <string name="app_name">OSMApp</string>
-    <string name="title_activity_inicio">inicio</string>
-    <string name="title_activity_galeria">galeria</string>
-    <string name="title_activity_favoritos">favoritos</string>
-    <string name="title_activity_contacto">contacto</string>
-    <string name="title_activity_iniciarsesion">iniciarsesion</string>
-    <string name="title_activity_registrar">registrar</string>
-    <string name="title_activity_perfil">perfil</string>
+    <string name="img_trend_1_title_es">Texto 1</string>
+    <string name="img_trend_2_title_es">Texto 2</string>
+    <string name="img_trend_3_title_es">Texto 3</string>
+    <string name="img_trend_4_title_es">Texto 4</string>
+    <string name="main_img_description">logo principal de la marca</string>
 </resources>

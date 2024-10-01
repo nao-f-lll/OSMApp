@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">OSMApp</string>
+    <string name="title_activity_inicio">inicio</string>
+    <string name="title_activity_galeria">galeria</string>
+    <string name="title_activity_favoritos">favoritos</string>
+    <string name="title_activity_contacto">contacto</string>
+    <string name="title_activity_iniciarsesion">iniciarsesion</string>
+    <string name="title_activity_registrar">registrar</string>
+    <string name="title_activity_perfil">perfil</string>
+</resources>

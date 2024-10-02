@@ -49,13 +49,6 @@ fun TopBarComponent() {
             painter = painterResource(id = R.drawable.main_logo),
             contentDescription = stringResource(id = R.string.main_img_description)
         )
-        TopAppBar(
-            modifier = Modifier
-                .padding(top = 24.dp),
-            title = {
-                Text(text = "")
-            }
-        )
     }
 
 }

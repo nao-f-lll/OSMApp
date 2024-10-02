@@ -35,6 +35,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.project.osmapp.R
 
+
+
 @Composable
 fun TrendImageTitleComponent(value:String) {
     Text(
@@ -63,6 +65,9 @@ fun TopBarComponent() {
     }
 
 }
+
+
+
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(

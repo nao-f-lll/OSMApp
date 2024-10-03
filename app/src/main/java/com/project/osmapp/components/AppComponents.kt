@@ -2,33 +2,37 @@ package com.project.osmapp.components
 
 
 import android.content.res.Configuration
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -42,6 +46,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.project.osmapp.R
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 @Composable
@@ -57,11 +62,10 @@ fun TopBarComponent() {
             contentDescription = stringResource(id = R.string.main_img_description),
             modifier = Modifier
                 .size(200.dp)
-                .padding(top = 40.dp),
+                .padding(top = 30.dp),
             )
     }
 }
-
 
 @Composable
 fun ScreenOrientationComponent() {
@@ -69,59 +73,61 @@ fun ScreenOrientationComponent() {
     if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
         TrendImageListComponentPortrateLayout()
     } else {
-        TrendImageListComponentLandScapeLayout()
+       // TrendImageListComponentLandScapeLayout()
     }
 }
 
 @Composable
 fun TrendImageListComponentLandScapeLayout(modifier: Modifier = Modifier) {
+}
+
+
+@Composable
+fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
+
     val images = listOf(
         R.drawable.trend_image_1,
         R.drawable.trend_image_2,
         R.drawable.trend_image_3,
-        R.drawable.trend_image_4
+        R.drawable.trend_image_4,
+        R.drawable.trend_image_5
     )
-
-    val pagerState = rememberPagerState(pageCount = { images.size })
-    //logic part need to be moved to logic package
+    val pagerState = rememberPagerState(
+        pageCount =
+        { images.size }
+    )
     LaunchedEffect(Unit) {
         while (true) {
-            delay(2000)
+            delay(4000)
             val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
             pagerState.scrollToPage(nextPage)
         }
     }
+    val scope = rememberCoroutineScope()
 
-    val config = LocalConfiguration.current
-    val imageSize = if (config.screenWidthDp > 600) {
-        400.dp
-    } else {
-        200.dp
-    }
-
-    Box(
-        modifier = modifier.wrapContentSize()
+    Column(
+        modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        HorizontalPager(
-            state = pagerState,
-            modifier.wrapContentWidth()
-        ) { currentPage ->
-            Row(
-                modifier = modifier.wrapContentSize()
-            ) {
+        Box(modifier = modifier.wrapContentSize()) {
+            HorizontalPager(
+                state = pagerState,
+                modifier
+                    .wrapContentSize()
+
+            ) { currentPage ->
+
                 Card(
-                    modifier = modifier
-                        .size(imageSize)
-                        .padding(20.dp),
+                    modifier
+                        .wrapContentSize()
+                        .padding(26.dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
-                    Box(
-                        modifier = modifier.fillMaxSize()
-                    ) {
+
+                    Box {
                         Image(
                             painter = painterResource(id = images[currentPage]),
                             contentDescription = "",
-                            modifier = modifier.fillMaxSize()
                         )
                         Box(
                             modifier = modifier
@@ -140,107 +146,93 @@ fun TrendImageListComponentLandScapeLayout(modifier: Modifier = Modifier) {
                             )
                         }
                     }
-                }
-                Card(
-                    modifier = modifier
-                        .size(imageSize)
-                        .padding(20.dp),
-                    elevation = CardDefaults.cardElevation(8.dp)
-                ) {
-                    Box(
-                        modifier = modifier.fillMaxSize()
-                    ) {
-                        Image(
-                            painter = painterResource(id = images[(currentPage + 1) % images.size]),
-                            contentDescription = "",
-                            modifier = modifier.fillMaxSize()
-                        )
 
-                        Box(
-                            modifier = modifier
-                                .background(Color.Black.copy(alpha = 0.1f))
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth()
-                        ) {
-                            Text(
-                                text = "Andam",
-                                modifier
-                                    .align(Alignment.BottomCenter)
-                                    .padding(12.dp),
-                                color = Color.White,
-                                style = MaterialTheme.typography.headlineLarge,
-                                textAlign = TextAlign.Center
-                            )
-                        }
-                    }
+
                 }
             }
+            IconButton(
+                onClick = {
+                    val nextPage = pagerState.currentPage + 1
+                    if (nextPage < images.size) {
+                        scope.launch {
+                            pagerState.scrollToPage(nextPage)
+                        }
+                    }
+                },
+                modifier
+                    .padding(30.dp)
+                    .size(48.dp)
+                    .align(Alignment.CenterEnd)
+                    .clip(CircleShape),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color(0x52373737)
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "",
+                    modifier.fillMaxSize(),
+                    tint = Color.LightGray
+                )
+            }
+            IconButton(
+                onClick = {
+                    val prevPage = pagerState.currentPage -1
+                    if (prevPage >= 0) {
+                        scope.launch {
+                            pagerState.scrollToPage(prevPage)
+                        }
+                    }
+                },
+                modifier
+                    .padding(30.dp)
+                    .size(48.dp)
+                    .align(Alignment.CenterStart)
+                    .clip(CircleShape),
+                colors = IconButtonDefaults.iconButtonColors(
+                    containerColor = Color(0x52373737)
+                )
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "",
+                    modifier.fillMaxSize(),
+                    tint = Color.LightGray
+                )
+            }
+        }
+
+        PageIndicator(
+            pageCount = images.size,
+            currentPage = pagerState.currentPage,
+            modifier = modifier
+        )
+
+    }
+}
+
+@Composable
+fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier
+    ) {
+        repeat(pageCount){
+            IndicatorDots(isSelected = it == currentPage, modifier= modifier)
         }
     }
 }
 
 @Composable
-fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
-    val images = listOf(
-        R.drawable.trend_image_1,
-        R.drawable.trend_image_2,
-        R.drawable.trend_image_3,
-        R.drawable.trend_image_4
+fun IndicatorDots(isSelected: Boolean, modifier: Modifier) {
+    val size = animateDpAsState(targetValue = if (isSelected) 12.dp else 10.dp, label = "")
+    Box(modifier = modifier.padding(2.dp)
+        .size(size.value)
+        .clip(CircleShape)
+        .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
     )
-    val pagerState = rememberPagerState( pageCount =
-    { images.size }
-        )
-    //logic part need to be moved to logic package
-    LaunchedEffect(Unit) {
-        while (true) {
-            delay(2000)
-            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
-            pagerState.scrollToPage(nextPage)
-        }
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxSize(),
-    ) {
-            HorizontalPager(
-                state = pagerState,
-            ) { currentPage ->
-                Card(
-                    modifier
-                        .padding(26.dp),
-                    elevation = CardDefaults.cardElevation(8.dp)
-                ) {
-                    Box(
-                        modifier = modifier.fillMaxSize()
-                    ) {
-                        Image(
-                            painter = painterResource(id = images[currentPage]),
-                            contentDescription = "",
-                            modifier = modifier.fillMaxSize()
-                        )
-                        Box(
-                            modifier = modifier
-                                .background(Color.Black.copy(alpha = 0.1f))
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth()
-                        ) {
-                        Text(
-                            text = "Andam",
-                            modifier
-                                .align(Alignment.BottomCenter)
-                                .padding(12.dp),
-                            color = Color.White,
-                            style = MaterialTheme.typography.headlineLarge,
-                            textAlign = TextAlign.Center
-                            )
-                        }
-                    }
-                }
-
-        }
-    }
 }
+
 
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {

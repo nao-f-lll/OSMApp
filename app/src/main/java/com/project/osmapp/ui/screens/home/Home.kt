@@ -1,4 +1,4 @@
-package com.project.osmapp.screens
+package com.project.osmapp.ui.screens.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -13,7 +13,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.components.BottomNavigationBar
-import com.project.osmapp.components.TrendImageListComponent
+import com.project.osmapp.components.ScreenOrientationComponent
 
 @Composable
 fun HomeScreen() {
@@ -37,7 +37,7 @@ fun HomeScreen(navController: NavHostController) {
                     .weight(1f)
                     .fillMaxWidth()
             ) {
-                TrendImageListComponent()
+                ScreenOrientationComponent()
 
             }
             BottomNavigationBar(navController)

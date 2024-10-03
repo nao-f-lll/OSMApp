@@ -1,11 +1,14 @@
 package com.project.osmapp.components
 
 
-import android.media.ImageReader
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -16,27 +19,24 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -57,17 +57,135 @@ fun TopBarComponent() {
             contentDescription = stringResource(id = R.string.main_img_description),
             modifier = Modifier
                 .size(200.dp)
-                .padding(bottom = 4.dp),
+                .padding(top = 40.dp),
             )
     }
 }
 
+
 @Composable
-fun TrendImageListComponent(modifier: Modifier = Modifier) {
+fun ScreenOrientationComponent() {
+   val config = LocalConfiguration.current
+    if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+        TrendImageListComponentPortrateLayout()
+    } else {
+        TrendImageListComponentLandScapeLayout()
+    }
+}
+
+@Composable
+fun TrendImageListComponentLandScapeLayout(modifier: Modifier = Modifier) {
     val images = listOf(
         R.drawable.trend_image_1,
         R.drawable.trend_image_2,
-        R.drawable.trend_image_3
+        R.drawable.trend_image_3,
+        R.drawable.trend_image_4
+    )
+
+    val pagerState = rememberPagerState(pageCount = { images.size })
+    //logic part need to be moved to logic package
+    LaunchedEffect(Unit) {
+        while (true) {
+            delay(2000)
+            val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
+            pagerState.scrollToPage(nextPage)
+        }
+    }
+
+    val config = LocalConfiguration.current
+    val imageSize = if (config.screenWidthDp > 600) {
+        400.dp
+    } else {
+        200.dp
+    }
+
+    Box(
+        modifier = modifier.wrapContentSize()
+    ) {
+        HorizontalPager(
+            state = pagerState,
+            modifier.wrapContentWidth()
+        ) { currentPage ->
+            Row(
+                modifier = modifier.wrapContentSize()
+            ) {
+                Card(
+                    modifier = modifier
+                        .size(imageSize)
+                        .padding(20.dp),
+                    elevation = CardDefaults.cardElevation(8.dp)
+                ) {
+                    Box(
+                        modifier = modifier.fillMaxSize()
+                    ) {
+                        Image(
+                            painter = painterResource(id = images[currentPage]),
+                            contentDescription = "",
+                            modifier = modifier.fillMaxSize()
+                        )
+                        Box(
+                            modifier = modifier
+                                .background(Color.Black.copy(alpha = 0.1f))
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Andam",
+                                modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(12.dp),
+                                color = Color.White,
+                                style = MaterialTheme.typography.headlineLarge,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+                Card(
+                    modifier = modifier
+                        .size(imageSize)
+                        .padding(20.dp),
+                    elevation = CardDefaults.cardElevation(8.dp)
+                ) {
+                    Box(
+                        modifier = modifier.fillMaxSize()
+                    ) {
+                        Image(
+                            painter = painterResource(id = images[(currentPage + 1) % images.size]),
+                            contentDescription = "",
+                            modifier = modifier.fillMaxSize()
+                        )
+
+                        Box(
+                            modifier = modifier
+                                .background(Color.Black.copy(alpha = 0.1f))
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Andam",
+                                modifier
+                                    .align(Alignment.BottomCenter)
+                                    .padding(12.dp),
+                                color = Color.White,
+                                style = MaterialTheme.typography.headlineLarge,
+                                textAlign = TextAlign.Center
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
+    val images = listOf(
+        R.drawable.trend_image_1,
+        R.drawable.trend_image_2,
+        R.drawable.trend_image_3,
+        R.drawable.trend_image_4
     )
     val pagerState = rememberPagerState( pageCount =
     { images.size }
@@ -83,94 +201,47 @@ fun TrendImageListComponent(modifier: Modifier = Modifier) {
 
     Column(
         modifier = modifier
-            .wrapContentWidth()
             .fillMaxSize(),
-
     ) {
-        Box(
-            modifier = modifier
-                .wrapContentSize()
-        ) {
             HorizontalPager(
                 state = pagerState,
-                modifier
-                    .wrapContentWidth()
-
             ) { currentPage ->
                 Card(
                     modifier
-                        .wrapContentSize()
                         .padding(26.dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
-                    Image(
-                        painter = painterResource(id = images[currentPage]),
-                        contentDescription = "",
-                        modifier.fillMaxSize()
-                    )
+                    Box(
+                        modifier = modifier.fillMaxSize()
+                    ) {
+                        Image(
+                            painter = painterResource(id = images[currentPage]),
+                            contentDescription = "",
+                            modifier = modifier.fillMaxSize()
+                        )
+                        Box(
+                            modifier = modifier
+                                .background(Color.Black.copy(alpha = 0.1f))
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                        ) {
+                        Text(
+                            text = "Andam",
+                            modifier
+                                .align(Alignment.BottomCenter)
+                                .padding(12.dp),
+                            color = Color.White,
+                            style = MaterialTheme.typography.headlineLarge,
+                            textAlign = TextAlign.Center
+                            )
+                        }
+                    }
                 }
-            }
 
-            IconButton(
-                onClick = { /*TODO*/ },
-                modifier
-                    .padding(30.dp)
-                    .size(48.dp)
-                    .align(Alignment.CenterEnd)
-                    .clip(CircleShape),
-            ) {
-               // Icon( ImageVector = Icons.Filled.Email, contentDescription = "")
-
-            }
-        }
-
-
-        /*
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(12.dp)
-    ) {
-        items(images) { imageRes ->
-            TrendImageComponent(imageRes)
         }
     }
-    */
-    }
 }
-/*
-@Composable
-fun TrendImageComponent(imageRes: Int) {
-    Box (
-        modifier = Modifier
-            .padding(12.dp)
-            .clip(RoundedCornerShape(24.dp))
-            .fillMaxWidth()
-            .fillMaxHeight(),
-        contentAlignment = Alignment.Center
 
-    ) {
-        Image(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(),
-            painter = painterResource(id = imageRes),
-            contentDescription = "palceholder",
-        )
-        Text(
-            text = "placeholder",
-            modifier = Modifier
-                .align(Alignment.Center)
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(12.dp),
-            color = Color.Black,
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Center
-        )
-    }
-}
-*/
 @Composable
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(

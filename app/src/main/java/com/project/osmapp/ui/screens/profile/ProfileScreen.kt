@@ -1,4 +1,4 @@
-package com.project.osmapp.screens
+package com.project.osmapp.ui.screens.profile
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Box
@@ -14,12 +14,12 @@ import com.project.osmapp.components.BottomNavigationBar
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun GalleryScreen(navController: NavHostController) {
+fun ProfileScreen(navController: NavHostController) {
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) } // Agregar barra de navegación
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Text(text = "Pantalla de Galería", modifier = Modifier.padding(16.dp))
+            Text(text = "Pantalla de Perfil", modifier = Modifier.padding(16.dp))
         }
     }
 }

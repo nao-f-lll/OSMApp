@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.rememberNavController
-import com.project.osmapp.`fun`.SetupNavigation
+import com.project.osmapp.logic.SetupNavigation
 
 
 @Composable

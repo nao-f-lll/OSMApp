@@ -1,10 +1,13 @@
 package com.project.osmapp.components
 
 
+import android.content.Intent
 import android.content.res.Configuration
+import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +21,7 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
@@ -37,11 +41,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.project.osmapp.R
@@ -114,16 +121,13 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                 state = pagerState,
                 modifier
                     .wrapContentSize()
-
             ) { currentPage ->
-
                 Card(
                     modifier
                         .wrapContentSize()
                         .padding(26.dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
-
                     Box {
                         Image(
                             painter = painterResource(id = images[currentPage]),
@@ -146,8 +150,6 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                             )
                         }
                     }
-
-
                 }
             }
             IconButton(
@@ -263,5 +265,119 @@ fun BottomNavigationBar(navController: NavHostController) {
                 }
             )
         }
+    }
+}
+
+
+/*Componentes de la pagina de contacto*/
+
+@Composable
+fun StoreDescription() {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(1.dp)
+            .background(
+                color = Color.Transparent,
+                shape = RoundedCornerShape(8.dp) // Bordes redondeados
+            )
+    ) {
+        Text(
+            text = "Tienda Olañeta\n\nLa tienda Olañeta ofrece una amplia variedad de productos y servicios, destacando por su atención al cliente y su compromiso con la calidad.",
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = Color.Black,
+                fontSize = 16.sp
+            ),
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(16.dp)
+        )
+    }
+}
+
+
+@Composable
+fun SocialMediaIconsComponent(modifier: Modifier) {
+    val context = LocalContext.current
+
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .padding(bottom = 20.dp),
+        horizontalArrangement = Arrangement.SpaceEvenly
+    ) {
+        // Instagram
+        Image(
+            painter = painterResource(id = R.drawable.instagram_icon),
+            contentDescription = "Instagram",
+            modifier = Modifier
+                .size(48.dp)
+                .clickable {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://www.instagram.com/olanetaoficial")
+                    )
+                    context.startActivity(intent)
+                }
+        )
+        // Teléfono
+        Image(
+            painter = painterResource(id = R.drawable.phone_icon),
+            contentDescription = "Teléfono",
+            modifier = Modifier
+                .size(48.dp)
+                .clickable {
+                    val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel: 944 15 31 96"))
+                    context.startActivity(intent)
+                }
+        )
+        // Correo
+        Image(
+            painter = painterResource(id = R.drawable.email_icon),
+            contentDescription = "Correo",
+            modifier = Modifier
+                .size(48.dp)
+                .clickable {
+                    val intent = Intent(Intent.ACTION_SENDTO).apply {
+                        data = Uri.parse("mailto:info@xabierolaneta.com")
+                    }
+                    context.startActivity(intent)
+                }
+        )
+        // Sitio web
+        Image(
+            painter = painterResource(id = R.drawable.website_icon),
+            contentDescription = "Sitio Web",
+            modifier = Modifier
+                .size(48.dp)
+                .clickable {
+                    val intent = Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse("https://olañeta.com")
+                    )
+                    context.startActivity(intent) }
+        )
+    }
+}
+
+@Composable
+fun MapsWebView() {
+    val context = LocalContext.current
+    val mapUrl = "https://maps.app.goo.gl/ubNRtbXrNuXp9vdp6"
+
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.store_map),
+            contentDescription = "Simulated Map",
+            modifier = Modifier
+                .size(350.dp)
+                .clip(RoundedCornerShape(16.dp))
+                .clickable {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(mapUrl))
+                    context.startActivity(intent)
+                },
+            contentScale = ContentScale.Crop
+        )
     }
 }

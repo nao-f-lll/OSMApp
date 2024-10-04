@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.project.osmapp.components.NavigationItem
-import com.project.osmapp.ui.screens.contact.ContactScreen
+import com.project.osmapp.screens.ContactScreen
 import com.project.osmapp.ui.screens.gallery.GalleryScreen
 import com.project.osmapp.ui.screens.home.HomeScreen
 import com.project.osmapp.ui.screens.profile.ProfileScreen

@@ -7,8 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.project.osmapp.components.NavigationItem
 import com.project.osmapp.screens.ContactScreen
-import com.project.osmapp.ui.screens.gallery.GalleryScreen
 import com.project.osmapp.ui.screens.home.HomeScreen
+import com.project.osmapp.ui.screens.products.ProductListScreen
 import com.project.osmapp.ui.screens.profile.ProfileScreen
 
 
@@ -18,8 +18,8 @@ fun SetupNavigation(navController: NavHostController) {
         navController = navController,
         startDestination = NavigationItem.Home.route
     ) {
+        composable(NavigationItem.Gallery.route) { ProductListScreen(navController) }
         composable(NavigationItem.Home.route) { HomeScreen(navController) }
-        composable(NavigationItem.Gallery.route) { GalleryScreen(navController) }
         composable(NavigationItem.Contact.route) { ContactScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
     }

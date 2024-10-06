@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -23,27 +24,29 @@ import com.project.osmapp.components.BottomNavigationBar
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun ProductListScreen(navController: NavHostController, viewModel: ProductsListViewModel = viewModel()) {
-   val products by viewModel.productList.collectAsStateWithLifecycle()
+fun ProductsListScreen(navController: NavHostController, viewModel: ProductsListViewModel = viewModel()) {
+    val products by viewModel.productList.collectAsStateWithLifecycle()
     Scaffold(
         bottomBar = { BottomNavigationBar(navController) }
     ) { paddingValues ->
-        LazyColumn (
+        LazyColumn(
             contentPadding = PaddingValues(20.dp),
             modifier = Modifier.padding(paddingValues),
             verticalArrangement = Arrangement.spacedBy(10.dp)
-        ){
+        ) {
             items(products) { product ->
-                Row (
-                    modifier = Modifier.fillMaxWidth()
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
                         text = product.id.toString(),
                         fontSize = 28.sp,
-                        fontWeight = FontWeight.Bold
-                        )
+                        fontWeight = FontWeight.Bold,
+                        color = Color.Black
+                    )
                     Text(
                         text = product.brand,
                         fontSize = 28.sp,

@@ -2,14 +2,12 @@ package com.project.osmapp.ui.screens.products
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.google.firebase.ktx.Firebase
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObjects
+import com.google.firebase.ktx.Firebase
 import com.project.osmapp.domain.model.Product
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 
 class ProductsListViewModel : ViewModel() {
     private var _productList = MutableStateFlow<List<Product>>(emptyList())
@@ -21,7 +19,7 @@ class ProductsListViewModel : ViewModel() {
 
     private fun getProductList() {
         val db = Firebase.firestore
-        db.collection("cars")
+        db.collection("hombre")
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     Log.e("ProductsListViewModel", "Error fetching products", error)

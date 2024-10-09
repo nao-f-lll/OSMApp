@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">OSMApp</string>
-    <string name="img_trend_1_title_es">Texto 1</string>
-    <string name="img_trend_2_title_es">Texto 2</string>
+    <string name="img_trend_1_title">Texto 1</string>
+    <string name="img_trend_2_title_en">Texto 2</string>
     <string name="img_trend_3_title_es">Texto 3</string>
     <string name="img_trend_4_title_es">Texto 4</string>
     <string name="main_img_description">logo principal de la marca</string>

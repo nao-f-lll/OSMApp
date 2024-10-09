@@ -7,8 +7,11 @@ data class Product(
     val nombre: String = "",
     val contador: Int = 0,
     val precio: Double = 0.0,
-    val imagen: String = ""
+    val imagen: String = "",
+    val id: String = ""
 ) {
+
+
     companion object {
         fun fromDocumentSnapshot(snapshot: DocumentSnapshot): Product {
             val nombre = snapshot.getString("nombre") ?: ""
@@ -21,7 +24,8 @@ data class Product(
             } ?: 0
             val precio = snapshot.getDouble("precio") ?: 0.0
             val imagen = snapshot.getString("imagen") ?: ""
-            return Product(nombre, contador, precio, imagen)
+            val id = snapshot.getString("id") ?: ""
+            return Product(nombre, contador, precio, imagen, id)
         }
     }
 }

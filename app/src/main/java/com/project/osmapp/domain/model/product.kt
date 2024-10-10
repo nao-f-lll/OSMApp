@@ -1,7 +1,6 @@
 package com.project.osmapp.domain.model
 
 import com.google.firebase.firestore.DocumentSnapshot
-import com.google.firebase.firestore.FirebaseFirestoreException
 
 data class Product(
     val nombre: String = "",

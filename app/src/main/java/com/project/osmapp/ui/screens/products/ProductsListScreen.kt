@@ -144,33 +144,33 @@ fun GridItem(product: Product) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = "${product.precio}€",
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp,
-                color = Color.Gray,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
-            )
+        Text(
+            text = "${product.precio}€",
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            color = Color.Gray,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth()
+        )
 
-            Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
-            Image(
-                painter = if (isLiked) rememberVectorPainter(Icons.Default.Favorite) else rememberVectorPainter(
-                    Icons.Default.FavoriteBorder
-                ),
-                contentDescription = "Like Icon",
-                modifier = Modifier
-                    .size(24.dp)
-                    .clickable {
-                        isLiked = !isLiked
-                        if (isLiked) {
-                            contador += 1
-                            updateContadorInFirestore(product.id, contador)
-                        }
+        Image(
+            painter = if (isLiked) rememberVectorPainter(Icons.Default.Favorite) else rememberVectorPainter(
+                Icons.Default.FavoriteBorder
+            ),
+            contentDescription = "Like Icon",
+            modifier = Modifier
+                .size(24.dp)
+                .clickable {
+                    isLiked = !isLiked
+                    if (isLiked) {
+                        contador += 1
+                        updateContadorInFirestore(product.id, contador)
                     }
-            )
-        }
+                }
+        )
+    }
 }
 
 fun updateContadorInFirestore(productId: String, newContador: Int) {
@@ -196,13 +196,13 @@ fun checkInternetConnection(context: Context): Boolean {
 }
 
 @Composable
-fun FloatActionHandler() {
+fun FloatActionHandler(viewModel: ProductsListViewModel = viewModel()) {
     var expanded by remember { mutableStateOf(false) }
     val items = listOf(
         MiniFabItems(Icons.Filled.Person, "Hombre"),
-        MiniFabItems(Icons.Filled.Person, "Mujer "),
-        MiniFabItems(Icons.Filled.Face, "Niña  "),
-        MiniFabItems(Icons.Filled.Face, "Niño  ")
+        MiniFabItems(Icons.Filled.Person, "Mujer"),
+        MiniFabItems(Icons.Filled.Face, "Niña"),
+        MiniFabItems(Icons.Filled.Face, "Niño")
     )
     Column(horizontalAlignment = Alignment.End) {
         AnimatedVisibility(
@@ -211,8 +211,12 @@ fun FloatActionHandler() {
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically()
         ) {
             LazyColumn(Modifier.padding(bottom = 8.dp)) {
-                items(items.size) {
-                    ItemUi(icon = items[it].icon, title = items[it].title)
+                items(items.size) { index ->
+                    val item = items[index]
+                    ItemUi(icon = item.icon, title = item.title) {
+                        viewModel.updateCategory(item.title.lowercase())
+                        expanded = false
+                    }
                     Spacer(modifier = Modifier.height(8.dp))
                 }
             }
@@ -235,7 +239,7 @@ fun FloatActionHandler() {
 }
 
 @Composable
-fun ItemUi(icon: ImageVector, title: String) {
+fun ItemUi(icon: ImageVector, title: String, onClick: () -> Unit) {
     val context = LocalContext.current
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
         Spacer(modifier = Modifier.weight(1f))
@@ -249,9 +253,10 @@ fun ItemUi(icon: ImageVector, title: String) {
         }
         Spacer(modifier = Modifier.width(10.dp))
         FloatingActionButton(onClick = {
+            onClick()
             Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
         }, modifier = Modifier.size(45.dp), containerColor = Color.LightGray) {
             Icon(imageVector = icon, contentDescription = "")
         }
     }
-    }
+}

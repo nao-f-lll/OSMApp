@@ -17,7 +17,7 @@ class ProductsListViewModel : ViewModel() {
         getProductList("hombre")
     }
 
-    private fun getProductList(category: String) {
+     fun getProductList(category: String) {
         val db = Firebase.firestore
         db.collection(category)
             .addSnapshotListener { value, error ->
@@ -29,5 +29,9 @@ class ProductsListViewModel : ViewModel() {
                     _productList.value = value.toObjects()
                 }
             }
+    }
+
+    fun updateCategory(category: String) {
+        getProductList(category)
     }
 }

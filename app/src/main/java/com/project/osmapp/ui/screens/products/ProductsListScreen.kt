@@ -4,15 +4,27 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,14 +51,18 @@ import com.project.osmapp.components.BottomNavigationBar
 import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.domain.model.Product
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.vectorResource
+import com.project.osmapp.domain.model.MiniFabItems
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -128,31 +144,33 @@ fun GridItem(product: Product) {
 
         Spacer(modifier = Modifier.height(4.dp))
 
-        Text(
-            text = "${product.precio}€",
-            fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            color = Color.Gray,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth()
-        )
+            Text(
+                text = "${product.precio}€",
+                fontWeight = FontWeight.Bold,
+                fontSize = 14.sp,
+                color = Color.Gray,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth()
+            )
 
-        Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-        Image(
-            painter = if (isLiked) rememberVectorPainter(Icons.Default.Favorite) else rememberVectorPainter(Icons.Default.FavoriteBorder),
-            contentDescription = "Like Icon",
-            modifier = Modifier
-                .size(24.dp)
-                .clickable {
-                    isLiked = !isLiked
-                    if (isLiked) {
-                        contador += 1
-                        updateContadorInFirestore(product.id, contador)
+            Image(
+                painter = if (isLiked) rememberVectorPainter(Icons.Default.Favorite) else rememberVectorPainter(
+                    Icons.Default.FavoriteBorder
+                ),
+                contentDescription = "Like Icon",
+                modifier = Modifier
+                    .size(24.dp)
+                    .clickable {
+                        isLiked = !isLiked
+                        if (isLiked) {
+                            contador += 1
+                            updateContadorInFirestore(product.id, contador)
+                        }
                     }
-                }
-        )
-    }
+            )
+        }
 }
 
 fun updateContadorInFirestore(productId: String, newContador: Int) {
@@ -180,20 +198,60 @@ fun checkInternetConnection(context: Context): Boolean {
 @Composable
 fun FloatActionHandler() {
     var expanded by remember { mutableStateOf(false) }
-    Column(
-        horizontalAlignment = Alignment.End
-    ) {
-        val transition = updateTransition(
-            targetState = expanded,
-            label = "transition")
-        val rotation by transition.animateFloat(label = "rotation") {
-            if (it) 45f else 0f
+    val items = listOf(
+        MiniFabItems(Icons.Filled.Person, "Hombre"),
+        MiniFabItems(Icons.Filled.Person, "Mujer "),
+        MiniFabItems(Icons.Filled.Face, "Niña  "),
+        MiniFabItems(Icons.Filled.Face, "Niño  ")
+    )
+    Column(horizontalAlignment = Alignment.End) {
+        AnimatedVisibility(
+            visible = expanded,
+            enter = fadeIn() + slideInVertically(initialOffsetY = { it }) + expandVertically(),
+            exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically()
+        ) {
+            LazyColumn(Modifier.padding(bottom = 8.dp)) {
+                items(items.size) {
+                    ItemUi(icon = items[it].icon, title = items[it].title)
+                    Spacer(modifier = Modifier.height(8.dp))
+                }
+            }
         }
+        val transition = updateTransition(targetState = expanded, label = "transition")
+        val rotation by transition.animateFloat(label = "rotation") {
+            if (it) 315f else 0f
+        }
+
         FloatingActionButton(
             onClick = { expanded = !expanded },
-            modifier = Modifier.rotate(rotation),
-            contentColor = Color.Gray) {
-            Icon(imageVector = Icons.Filled.Face, contentDescription = "Add")
+            containerColor = Color.LightGray
+        ) {
+            Icon(
+                imageVector = Icons.Filled.Face, contentDescription = "",
+                modifier = Modifier.rotate(rotation)
+            )
         }
     }
 }
+
+@Composable
+fun ItemUi(icon: ImageVector, title: String) {
+    val context = LocalContext.current
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+        Spacer(modifier = Modifier.weight(1f))
+        Box(
+            modifier = Modifier
+                .border(1.dp, Color.Gray, RoundedCornerShape(24.dp))
+                .padding(1.dp)
+                .background(Color.LightGray, CircleShape)
+        ) {
+            Text(text = title)
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        FloatingActionButton(onClick = {
+            Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
+        }, modifier = Modifier.size(45.dp), containerColor = Color.LightGray) {
+            Icon(imageVector = icon, contentDescription = "")
+        }
+    }
+    }

@@ -14,12 +14,12 @@ class ProductsListViewModel : ViewModel() {
     var productList = _productList.asStateFlow()
 
     init {
-        getProductList()
+        getProductList("hombre")
     }
 
-    private fun getProductList() {
+    private fun getProductList(category: String) {
         val db = Firebase.firestore
-        db.collection("hombre")
+        db.collection(category)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     Log.e("ProductsListViewModel", "Error fetching products", error)

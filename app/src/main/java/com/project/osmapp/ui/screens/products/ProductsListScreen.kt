@@ -47,6 +47,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.project.osmapp.components.BottomNavigationBar
 import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.domain.model.Product
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
 import com.project.osmapp.domain.model.MiniFabItems
 import kotlinx.coroutines.tasks.await
 
@@ -116,7 +118,6 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
 @Composable
 fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     var isLiked by remember { mutableStateOf(false) }
-    var contador by remember { mutableIntStateOf(product.contador) }
 
     LaunchedEffect(userId, product.id) {
         isLiked = checkIfProductIsLiked(userId, product.id)

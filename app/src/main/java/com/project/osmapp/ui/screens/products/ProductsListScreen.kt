@@ -5,15 +5,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.widget.Toast
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.animation.core.animateFloat
 import androidx.compose.animation.core.updateTransition
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
-import androidx.compose.animation.slideInVertically
-import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,17 +19,19 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -46,23 +42,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.project.osmapp.components.BottomNavigationBar
 import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.domain.model.Product
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.vectorResource
 import com.project.osmapp.domain.model.MiniFabItems
+import kotlinx.coroutines.tasks.await
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -70,6 +56,21 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
     val products by viewModel.productList.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val isConnected = remember { mutableStateOf(checkInternetConnection(context)) }
+    val userId = FirebaseAuth.getInstance().currentUser?.uid ?: "unknown"
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AlertDialog(
+            onDismissRequest = { showDialog = false },
+            title = { Text(text = "Advertencia") },
+            text = { Text("Debes iniciar sesión para agregar productos a tu lista de favoritos.") },
+            confirmButton = {
+                Button(onClick = { showDialog = false }) {
+                    Text("Cerrar")
+                }
+            }
+        )
+    }
 
     Scaffold(
         topBar = { TopBarComponent() },
@@ -89,7 +90,7 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
             ) {
                 items(products) { product ->
                     product?.let {
-                        GridItem(it)
+                        GridItem(it, userId, showDialog, setShowDialog = { showDialog = it })
                     }
                 }
             }
@@ -113,9 +114,13 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
 }
 
 @Composable
-fun GridItem(product: Product) {
+fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     var isLiked by remember { mutableStateOf(false) }
-    var contador by remember { mutableStateOf(product.contador) }
+    var contador by remember { mutableIntStateOf(product.contador) }
+
+    LaunchedEffect(userId, product.id) {
+        isLiked = checkIfProductIsLiked(userId, product.id)
+    }
 
     Column(
         modifier = Modifier
@@ -135,7 +140,7 @@ fun GridItem(product: Product) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = product.nombre ?: "",
+            text = product.nombre,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
@@ -163,27 +168,44 @@ fun GridItem(product: Product) {
             modifier = Modifier
                 .size(24.dp)
                 .clickable {
-                    isLiked = !isLiked
-                    if (isLiked) {
-                        contador += 1
-                        updateContadorInFirestore(product.id, contador)
+                    if (userId == "unknown") {
+                        setShowDialog(true)
+                    } else {
+                        isLiked = !isLiked
+                        if (isLiked) {
+                            addProductToFavorites(userId, product.id)
+                        } else {
+                            removeProductFromFavorites(userId, product.id)
+                        }
                     }
                 }
         )
     }
 }
 
-fun updateContadorInFirestore(productId: String, newContador: Int) {
+
+fun addProductToFavorites(userId: String, productId: String) {
     val db = FirebaseFirestore.getInstance()
-    db.collection("products").document(productId)
-        .update("contador", newContador)
-        .addOnSuccessListener {
-
-        }
-        .addOnFailureListener { e ->
-
-        }
+    val favorite = hashMapOf("productId" to productId)
+    db.collection("usuario-productos").document(userId)
+        .collection("favoritos").document(productId)
+        .set(favorite)
 }
+
+fun removeProductFromFavorites(userId: String, productId: String) {
+    val db = FirebaseFirestore.getInstance()
+    db.collection("usuario-productos").document(userId)
+        .collection("favoritos").document(productId)
+        .delete()
+}
+
+suspend fun checkIfProductIsLiked(userId: String, productId: String): Boolean {
+    val db = FirebaseFirestore.getInstance()
+    val document = db.collection("usuario-productos").document(userId)
+        .collection("favoritos").document(productId).get().await()
+    return document.exists()
+}
+
 fun checkInternetConnection(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork ?: return false

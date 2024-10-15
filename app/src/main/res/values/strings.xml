@@ -1,8 +1,53 @@
 <resources>
     <string name="app_name">OSMApp</string>
-    <string name="img_trend_1_title">Texto 1</string>
-    <string name="img_trend_2_title_en">Texto 2</string>
+    <string name="img_trend_1_title_es">Texto 1</string>
+    <string name="img_trend_2_title_es">Texto 2</string>
     <string name="img_trend_3_title_es">Texto 3</string>
     <string name="img_trend_4_title_es">Texto 4</string>
     <string name="main_img_description">logo principal de la marca</string>
+
+    <string name="nav_title_home">Inicio</string>
+    <string name="nav_title_gallery">Productos</string>
+    <string name="nav_title_contact">Contacto</string>
+    <string name="nav_title_profile">Perfil</string>
+
+    <string name="store_description">Tienda Olañeta\n\nLa tienda Olañeta ofrece una amplia variedad de productos y servicios, destacando por su atención al cliente y su compromiso con la calidad.</string>
+    <string name="content_description_instagram">Instagram</string>
+    <string name="content_description_phone">Teléfono</string>
+    <string name="content_description_email">Correo</string>
+    <string name="content_description_website">Sitio Web</string>
+    <string name="content_description_map">Simulated Map</string>
+
+    <string name="content_description_profile_picture">Foto de Perfil</string>
+    <string name="content_description_generic_picture">Imagen Genérica</string>
+    <string name="welcome_user">Bienvenido, %1$s</string>
+    <string name="login_prompt">¡Hola! Inicia sesión</string>
+    <string name="login_button">Iniciar Sesión</string>
+
+    <string name="unauthenticated_user">Usuario no autenticado</string>
+    <string name="logout_button">Cerrar Sesión</string>
+
+    <string name="login_title_spanish">¡Hola!</string>
+    <string name="login_welcome_spanish">Bienvenido de nuevo</string>
+    <string name="login_email_hint_spanish">Correo Electrónico</string>
+    <string name="login_password_hint_spanish">Contraseña</string>
+    <string name="login_error_empty_fields_spanish">Por favor, completa todos los campos.</string>
+    <string name="login_error_login_spanish">Error al iniciar sesión, comprueba el email y la contraseña.</string>
+    <string name="login_register_prompt_spanish">¿No tienes una cuenta?</string>
+    <string name="login_register_action_spanish">Regístrate</string>
+    <string name="login_google_error_spanish">Error al iniciar sesión con Google: %s</string>
+    <string name="login_google_token_error_spanish">Error al obtener el token de Google.</string>
+
+    <string name="signup_title_spanish">Hola,</string>
+    <string name="signup_create_account_spanish">Crea una cuenta</string>
+    <string name="signup_name_hint_spanish">Nombre</string>
+    <string name="signup_surname_hint_spanish">Apellido</string>
+    <string name="signup_email_hint_spanish">Correo Electrónico</string>
+    <string name="signup_password_hint_spanish">Contraseña</string>
+    <string name="signup_error_empty_fields_spanish">Por favor, completa todos los campos.</string>
+    <string name="signup_register_error_spanish">Error al registrarse: Desconocido</string>
+    <string name="signup_login_prompt_spanish">¿Ya tienes una cuenta?</string>
+    <string name="signup_login_action_spanish">Iniciar sesión</string>
+
+
 </resources>

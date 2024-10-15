@@ -1,12 +1,17 @@
 # Gradle files
 .gradle/
+*/build/
 build/
+.idea/
 
 # Local configuration file (sdk path, etc)
 local.properties
 
 # Log/OS Files
 *.log
+*.tmp
+*.temp
+*.DS_Store
 
 # Android Studio generated files and folders
 captures/
@@ -14,6 +19,7 @@ captures/
 .cxx/
 *.apk
 output.json
+app/build/generated/
 
 # IntelliJ
 *.iml
@@ -31,3 +37,6 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Gradle Wrapper files
+gradle-wrapper.properties

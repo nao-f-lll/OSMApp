@@ -10,7 +10,6 @@ data class Product(
     val id: String = ""
 ) {
 
-
     companion object {
         fun fromDocumentSnapshot(snapshot: DocumentSnapshot): Product {
             val nombre = snapshot.getString("nombre") ?: ""

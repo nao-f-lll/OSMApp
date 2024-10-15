@@ -57,11 +57,9 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
-import androidx.compose.ui.res.vectorResource
 import com.project.osmapp.domain.model.MiniFabItems
 
 @Composable
@@ -135,7 +133,7 @@ fun GridItem(product: Product) {
         Spacer(modifier = Modifier.height(8.dp))
 
         Text(
-            text = product.nombre ?: "",
+            text = product.nombre,
             fontWeight = FontWeight.SemiBold,
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
@@ -178,12 +176,13 @@ fun updateContadorInFirestore(productId: String, newContador: Int) {
     db.collection("products").document(productId)
         .update("contador", newContador)
         .addOnSuccessListener {
-
+            // Handle success
         }
         .addOnFailureListener { e ->
-
+            // Handle failure
         }
 }
+
 fun checkInternetConnection(context: Context): Boolean {
     val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork ?: return false

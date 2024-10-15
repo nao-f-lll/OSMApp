@@ -9,6 +9,8 @@ import com.project.osmapp.screens.ContactScreen
 import com.project.osmapp.ui.screens.home.HomeScreen
 import com.project.osmapp.ui.screens.products.ProductsListScreen
 import com.project.osmapp.ui.screens.profile.ProfileScreen
+import com.project.osmapp.ui.screens.signin.LoginScreen
+import com.project.osmapp.ui.screens.signup.SignupScreen
 
 @Composable
 fun SetupNavigation(navController: NavHostController) {
@@ -20,5 +22,14 @@ fun SetupNavigation(navController: NavHostController) {
         composable(NavigationItem.Gallery.route) { ProductsListScreen(navController) }
         composable(NavigationItem.Contact.route) { ContactScreen(navController) }
         composable(NavigationItem.Profile.route) { ProfileScreen(navController) }
+        composable(route = "Login") {
+            LoginScreen(navController)
+        }
+        composable(route = "Signup") {
+            SignupScreen(navController)
+        }
+        composable(route = "Profile") {
+            ProfileScreen(navController)
+        }
     }
 }

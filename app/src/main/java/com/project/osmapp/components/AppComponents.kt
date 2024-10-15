@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,6 +27,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -36,21 +39,26 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.rememberImagePainter
+import com.google.accompanist.pager.ExperimentalPagerApi
 import com.project.osmapp.R
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -99,6 +107,14 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
         R.drawable.trend_image_4,
         R.drawable.trend_image_5
     )
+
+    val texts = listOf(
+        "LYLU",
+        "ANDAM",
+        "C´EST LA VIE",
+        "GARCIA JEANS",
+        "FREEMAN PORTER"
+    )
     val pagerState = rememberPagerState(
         pageCount =
         { images.size }
@@ -119,19 +135,22 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
         Box(modifier = modifier.wrapContentSize()) {
             HorizontalPager(
                 state = pagerState,
-                modifier
-                    .wrapContentSize()
+                modifier .fillMaxWidth(0.9f)
+                    .height(480.dp)
             ) { currentPage ->
                 Card(
                     modifier
                         .wrapContentSize()
-                        .padding(26.dp),
+                        .padding(26.dp)
+                        .height(480.dp) ,
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
                     Box {
                         Image(
                             painter = painterResource(id = images[currentPage]),
                             contentDescription = "",
+                            contentScale = ContentScale.Crop // Ajusta la imagen al tamaño del contenedor
+
                         )
                         Box(
                             modifier = modifier
@@ -140,7 +159,7 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                                 .fillMaxWidth()
                         ) {
                             Text(
-                                text = "Andam",
+                                text = texts[currentPage],
                                 modifier
                                     .align(Alignment.BottomCenter)
                                     .padding(12.dp),
@@ -210,6 +229,7 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
 
     }
 }
+
 
 @Composable
 fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
@@ -379,5 +399,168 @@ fun MapsWebView() {
                 },
             contentScale = ContentScale.Crop
         )
+    }
+}
+
+/*Componetes de la pagina de perfil*/
+
+@Composable
+fun ProfileHeader(
+    userName: String,
+    profileImageUrl: String?,
+    isLoggedIn: Boolean,
+    onLoginClick: () -> Unit
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        if (profileImageUrl != null) {
+            // Imagen de perfil del usuario
+            Image(
+                painter = rememberImagePainter(data = profileImageUrl),
+                contentDescription = stringResource(id = R.string.content_description_profile_picture),
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            // Imagen genérica si no tiene una foto de perfil
+            Icon(
+                imageVector = Icons.Outlined.Person,
+                contentDescription = stringResource(id = R.string.content_description_generic_picture),
+                modifier = Modifier
+                    .size(100.dp)
+                    .clip(CircleShape),
+                tint = Color.Gray
+            )
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Texto con el nombre o mensaje genérico
+        Text(
+            text = if (isLoggedIn) {
+                stringResource(id = R.string.welcome_user, userName)
+            } else {
+                stringResource(id = R.string.login_prompt)
+            },
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.headlineSmall
+        )
+
+        // Botón de iniciar sesión si no está autenticado
+        if (!isLoggedIn) {
+            Text(
+                text = stringResource(id = R.string.login_button),
+                modifier = Modifier
+                    .clickable { onLoginClick() }
+                    .padding(top = 8.dp),
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+    }
+}
+
+/*@Composable
+fun LanguageDropdownMenu() {
+    val context = LocalContext.current
+    val languages = listOf("Español", "English", "Euskera")
+    val languageCodes = mapOf("Español" to "es", "English" to "en", "Euskera" to "eu")
+
+    val expanded = remember { mutableStateOf(false) }
+    val selectedLanguage = remember { mutableStateOf(languages[0]) }
+
+    // Button to open the dropdown
+    Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
+        Text(
+            text = "Idioma seleccionado: ${selectedLanguage.value}",
+            modifier = Modifier
+                .padding(16.dp)
+                .clickable { expanded.value = true }
+        )
+
+        DropdownMenu(
+            expanded = expanded.value,
+            onDismissRequest = { expanded.value = false }
+        ) {
+            languages.forEach { language ->
+                DropdownMenuItem(
+                    onClick = {
+                        selectedLanguage.value = language
+                        val languageCode = languageCodes[language] ?: "es"  // Código predeterminado: español
+                        setLocale(context, languageCode)  // Cambiar idioma
+                        expanded.value = false
+
+                        // Opcional: Recargar la actividad para aplicar los cambios de inmediato
+                        (context as? Activity)?.recreate()
+                    }
+                ) {
+                    // Text inside the dropdown item
+                    Text(text = language)  // Aquí aseguramos que el valor 'language' se pasa correctamente
+                }
+            }
+        }
+    }
+}*/
+
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+fun Marcas(modifier: Modifier = Modifier) {
+    // Lista de imágenes
+    val images = listOf(
+        R.drawable.garcia,
+        R.drawable.car,
+        R.drawable.lylu,
+        R.drawable.hoff
+    )
+
+    val pagerState = rememberPagerState(pageCount = { images.size })
+
+    LaunchedEffect(pagerState) {
+        while (true) {
+            delay(4000)
+            val nextPage = (pagerState.currentPage + 1) % images.size
+            pagerState.animateScrollToPage(nextPage)
+        }
+    }
+
+    Column(
+        modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Box(modifier = modifier.wrapContentSize()) {
+            HorizontalPager(
+                state = pagerState,
+                modifier = modifier
+                    .fillMaxWidth(0.6f)
+                    .height(300.dp)
+            ) { currentPage ->
+
+                val scale by animateFloatAsState(
+                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.9f
+                )
+                val alpha by animateFloatAsState(
+                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.5f
+                )
+
+                Card(
+                    modifier = Modifier
+                        .size(300.dp)
+                        .graphicsLayer(
+                            scaleX = scale,
+                            scaleY = scale,
+                            alpha = alpha
+                        )
+                ) {
+                    Image(
+                        painter = painterResource(id = images[currentPage]),
+                        contentDescription = "",
+                        modifier = Modifier.size(150.dp),
+                        contentScale = ContentScale.FillBounds
+                    )
+                }
+            }
+        }
     }
 }

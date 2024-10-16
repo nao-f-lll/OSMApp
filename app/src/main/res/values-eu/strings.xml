@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name">OSMApp</string>
+    <string name="img_trend_1_title_es">LYLU</string>
+    <string name="img_trend_2_title_es">ANDAM</string>
+    <string name="img_trend_3_title_es">C´EST LA VIE</string>
+    <string name="img_trend_4_title_es">GARCIA JEANS</string>
+    <string name="img_trend_5_title_es">FREEMAN PORTER</string>
+    <string name="main_img_description">Markaren logotipo nagusia</string>
+
+    <string name="nav_title_home">Hasiera</string>
+    <string name="nav_title_gallery">Produktuak</string>
+    <string name="nav_title_contact">Kontaktua</string>
+    <string name="nav_title_profile">Profil</string>
+
+    <string name="store_description">Olañeta denda\n\nOlañeta dendak produktu eta zerbitzu anitz eskaintzen ditu, bezeroarentzako arreta eta kalitatearen konpromisoagatik ezagunak.</string>
+    <string name="content_description_instagram">Instagram</string>
+    <string name="content_description_phone">Telefonoa</string>
+    <string name="content_description_email">Posta elektronikoa</string>
+    <string name="content_description_website">Webgunea</string>
+    <string name="content_description_map">Maparen Simulazioa</string>
+
+    <string name="content_description_profile_picture">Profil Irudia</string>
+    <string name="content_description_generic_picture">Irudi Orokorra</string>
+    <string name="welcome_user">Ongi etorri, %1$s</string>
+    <string name="login_prompt">Kaixo! Mesedez, saioa hasi</string>
+    <string name="login_button">Saioa Hasi</string>
+
+    <string name="unauthenticated_user">Identifikatu gabeko erabiltzailea</string>
+    <string name="logout_button">Saioa Itxi</string>
+
+    <string name="login_title_spanish">Kaixo!</string>
+    <string name="login_welcome_spanish">Ongi etorri berriro</string>
+    <string name="login_email_hint_spanish">Posta Elektronikoa</string>
+    <string name="login_password_hint_spanish">Pasahitza</string>
+    <string name="login_error_empty_fields_spanish">Mesedez, bete guztiak.</string>
+    <string name="login_error_login_spanish">Saio hasiera errorea, mesedez, egiaztatu zure posta elektronikoa eta pasahitza.</string>
+    <string name="login_register_prompt_spanish">Ez duzu konturik?</string>
+    <string name="login_register_action_spanish">Erregistratu</string>
+    <string name="login_google_error_spanish">Google-rekin saioa hastean errorea: %s</string>
+    <string name="login_google_token_error_spanish">Google tokena lortzeko errorea.</string>
+
+    <string name="signup_title_spanish">Kaixo,</string>
+    <string name="signup_create_account_spanish">Kontu bat sortu</string>
+    <string name="signup_name_hint_spanish">Izena</string>
+    <string name="signup_surname_hint_spanish">Abizena</string>
+    <string name="signup_email_hint_spanish">Posta Elektronikoa</string>
+    <string name="signup_password_hint_spanish">Pasahitza</string>
+    <string name="signup_error_empty_fields_spanish">Mesedez, bete guztiak.</string>
+    <string name="signup_register_error_spanish">Erregistratzean errorea: Ezezaguna</string>
+    <string name="signup_login_prompt_spanish">Jada kontua duzu?</string>
+    <string name="signup_login_action_spanish">Saioa Hasi</string>
+
+    <string name="hello">Kaixo!</string>
+    <string name="welcome_back">Ongi etorri berriro</string>
+    <string name="email_label">Posta Elektronikoa</string>
+    <string name="password_label">Pasahitza</string>
+    <string name="no_account_question">Ez duzu konturik?</string>
+    <string name="sign_up">Erregistratu</string>
+    <string name="login_action">Saioa Hasi</string>
+    <string name="complete_all_fields">Mesedez, bete guztiak.</string>
+    <string name="login_error">Saio hasiera errorea, mesedez, egiaztatu zure posta elektronikoa eta pasahitza.</string>
+    <string name="google_signin_error">Google-rekin saioa hastean errorea:</string>
+    <string name="google_token_error">Google tokena lortzeko errorea.</string>
+
+    <string name="signup_welcome">Kaixo,</string>
+    <string name="signup_title">Kontu bat sortu</string>
+    <string name="signup_name">Izena</string>
+    <string name="signup_surname">Abizena</string>
+    <string name="signup_email">Posta Elektronikoa</string>
+    <string name="signup_password">Pasahitza</string>
+    <string name="signup_error_empty_fields">Mesedez, bete guztiak.</string>
+    <string name="signup_error_registration">Erregistratzean errorea: %1$s</string>
+    <string name="signup_already_have_account">Jada kontua duzu?</string>
+    <string name="signup_login">Saioa Hasi</string>
+    <string name="signup_register">Erregistratu</string>
+
+    <string name="clickable_text_initial">Jarraituz, gure</string>
+    <string name="clickable_text_privacy_policy"> Pribatutasun Politika</string>
+    <string name="clickable_text_and"> eta </string>
+    <string name="clickable_text_terms_of_use"> Erabilera Baldintzak</string>
+
+    <string name="or_text">Edo</string>
+    <string name="google_logo_desc">Google logotipoa</string>
+    <string name="login_with_google">Saioa hasi Google-rekin</string>
+    <string name="select_language">Hautatutako Hizkuntza\n</string>
+</resources>

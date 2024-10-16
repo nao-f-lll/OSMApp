@@ -57,6 +57,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.project.osmapp.R
@@ -87,15 +88,8 @@ fun ScreenOrientationComponent() {
    val config = LocalConfiguration.current
     if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
         TrendImageListComponentPortrateLayout()
-    } else {
-       // TrendImageListComponentLandScapeLayout()
     }
 }
-
-@Composable
-fun TrendImageListComponentLandScapeLayout(modifier: Modifier = Modifier) {
-}
-
 
 @Composable
 fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
@@ -109,11 +103,11 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
     )
 
     val texts = listOf(
-        "LYLU",
-        "ANDAM",
-        "C´EST LA VIE",
-        "GARCIA JEANS",
-        "FREEMAN PORTER"
+        stringResource(id = R.string.img_trend_1_title_es),
+        stringResource(id = R.string.img_trend_2_title_es),
+        stringResource(id = R.string.img_trend_3_title_es),
+        stringResource(id = R.string.img_trend_4_title_es),
+        stringResource(id = R.string.img_trend_5_title_es)
     )
     val pagerState = rememberPagerState(
         pageCount =
@@ -149,7 +143,7 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                         Image(
                             painter = painterResource(id = images[currentPage]),
                             contentDescription = "",
-                            contentScale = ContentScale.Crop // Ajusta la imagen al tamaño del contenedor
+                            contentScale = ContentScale.Crop
 
                         )
                         Box(
@@ -299,11 +293,11 @@ fun StoreDescription() {
             .padding(1.dp)
             .background(
                 color = Color.Transparent,
-                shape = RoundedCornerShape(8.dp) // Bordes redondeados
+                shape = RoundedCornerShape(8.dp)
             )
     ) {
         Text(
-            text = "Tienda Olañeta\n\nLa tienda Olañeta ofrece una amplia variedad de productos y servicios, destacando por su atención al cliente y su compromiso con la calidad.",
+            text =    stringResource(id = R.string.store_description),
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = Color.Black,
                 fontSize = 16.sp
@@ -365,7 +359,7 @@ fun SocialMediaIconsComponent(modifier: Modifier) {
         // Sitio web
         Image(
             painter = painterResource(id = R.drawable.website_icon),
-            contentDescription = "Sitio Web",
+            contentDescription = "",
             modifier = Modifier
                 .size(48.dp)
                 .clickable {
@@ -389,7 +383,7 @@ fun MapsWebView() {
     ) {
         Image(
             painter = painterResource(id = R.drawable.store_map),
-            contentDescription = "Simulated Map",
+            contentDescription = "",
             modifier = Modifier
                 .size(350.dp)
                 .clip(RoundedCornerShape(16.dp))
@@ -415,7 +409,7 @@ fun ProfileHeader(
         if (profileImageUrl != null) {
             // Imagen de perfil del usuario
             Image(
-                painter = rememberImagePainter(data = profileImageUrl),
+                painter = rememberAsyncImagePainter(model = profileImageUrl),
                 contentDescription = stringResource(id = R.string.content_description_profile_picture),
                 modifier = Modifier
                     .size(100.dp)
@@ -459,48 +453,6 @@ fun ProfileHeader(
         }
     }
 }
-
-/*@Composable
-fun LanguageDropdownMenu() {
-    val context = LocalContext.current
-    val languages = listOf("Español", "English", "Euskera")
-    val languageCodes = mapOf("Español" to "es", "English" to "en", "Euskera" to "eu")
-
-    val expanded = remember { mutableStateOf(false) }
-    val selectedLanguage = remember { mutableStateOf(languages[0]) }
-
-    // Button to open the dropdown
-    Box(modifier = Modifier.wrapContentSize(Alignment.TopStart)) {
-        Text(
-            text = "Idioma seleccionado: ${selectedLanguage.value}",
-            modifier = Modifier
-                .padding(16.dp)
-                .clickable { expanded.value = true }
-        )
-
-        DropdownMenu(
-            expanded = expanded.value,
-            onDismissRequest = { expanded.value = false }
-        ) {
-            languages.forEach { language ->
-                DropdownMenuItem(
-                    onClick = {
-                        selectedLanguage.value = language
-                        val languageCode = languageCodes[language] ?: "es"  // Código predeterminado: español
-                        setLocale(context, languageCode)  // Cambiar idioma
-                        expanded.value = false
-
-                        // Opcional: Recargar la actividad para aplicar los cambios de inmediato
-                        (context as? Activity)?.recreate()
-                    }
-                ) {
-                    // Text inside the dropdown item
-                    Text(text = language)  // Aquí aseguramos que el valor 'language' se pasa correctamente
-                }
-            }
-        }
-    }
-}*/
 
 
 @OptIn(ExperimentalPagerApi::class)

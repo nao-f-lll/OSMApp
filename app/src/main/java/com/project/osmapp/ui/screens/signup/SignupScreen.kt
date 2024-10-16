@@ -6,9 +6,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -34,9 +37,11 @@ import com.project.osmapp.ui.screens.signin.PasswordTextFieldComponent
 import com.project.osmapp.ui.screens.signin.HeadingTextComponent
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.project.osmapp.R
 
 @Composable
 fun SignupScreen(navController: NavHostController) {
@@ -92,33 +97,33 @@ fun SignupScreen(navController: NavHostController) {
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState()) // Habilitar scroll
         ) {
-            NormalTextComponent(value = "Hola,")
-            HeadingTextComponent(value = "Crea una cuenta")
+            NormalTextComponent(value = stringResource(id = R.string.signup_welcome))
+            HeadingTextComponent(value = stringResource(id = R.string.signup_title))
             Spacer(modifier = Modifier.height(20.dp))
 
             MyTextFieldComponent(
-                labelValue = "Nombre",
+                labelValue = stringResource(id = R.string.signup_name),
                 icon = Icons.Outlined.Person,
                 value = name,
                 onValueChange = { name = it }
             )
             Spacer(modifier = Modifier.height(8.dp))
             MyTextFieldComponent(
-                labelValue = "Apellido",
+                labelValue = stringResource(id = R.string.signup_surname),
                 icon = Icons.Outlined.Person,
                 value = surname,
                 onValueChange = { surname = it }
             )
             Spacer(modifier = Modifier.height(8.dp))
             MyTextFieldComponent(
-                labelValue = "Correo Electrónico",
+                labelValue = stringResource(id = R.string.signup_email),
                 icon = Icons.Outlined.Email,
                 value = email,
                 onValueChange = { email = it }
             )
             Spacer(modifier = Modifier.height(8.dp))
             PasswordTextFieldComponent(
-                labelValue = "Contraseña",
+                labelValue = stringResource(id = R.string.signup_password),
                 icon = Icons.Outlined.Lock,
                 value = password,
                 onValueChange = { password = it }
@@ -133,9 +138,9 @@ fun SignupScreen(navController: NavHostController) {
             Spacer(modifier = Modifier.height(4.dp)) // Espacio reducido
 
             BottomComponent(
-                textQuery = "¿Ya tienes una cuenta? ",
-                textClickable = "Iniciar sesión",
-                action = "Registrarse",
+                textQuery = stringResource(id = R.string.signup_already_have_account),
+                textClickable = stringResource(id = R.string.signup_login),
+                action = stringResource(id = R.string.signup_register),
                 onClickPrimary = {
                     // Validar campos
                     if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {

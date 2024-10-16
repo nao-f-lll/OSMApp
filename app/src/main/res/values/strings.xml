@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">OSMApp</string>
-    <string name="img_trend_1_title_es">Texto 1</string>
-    <string name="img_trend_2_title_es">Texto 2</string>
-    <string name="img_trend_3_title_es">Texto 3</string>
-    <string name="img_trend_4_title_es">Texto 4</string>
+    <string name="img_trend_1_title_es">LYLU</string>
+    <string name="img_trend_2_title_es">ANDAM</string>
+    <string name="img_trend_3_title_es">C´EST LA VIE</string>
+    <string name="img_trend_4_title_es">GARCIA JEANS</string>
+    <string name="img_trend_5_title_es">FREEMAN PORTER</string>
     <string name="main_img_description">logo principal de la marca</string>
 
     <string name="nav_title_home">Inicio</string>
@@ -49,5 +50,40 @@
     <string name="signup_login_prompt_spanish">¿Ya tienes una cuenta?</string>
     <string name="signup_login_action_spanish">Iniciar sesión</string>
 
+
+    <string name="hello">¡Hola!</string>
+    <string name="welcome_back">Bienvenido de nuevo</string>
+    <string name="email_label">Correo Electrónico</string>
+    <string name="password_label">Contraseña</string>
+    <string name="no_account_question">¿No tienes una cuenta?</string>
+    <string name="sign_up">Regístrate</string>
+    <string name="login_action">Iniciar Sesión</string>
+    <string name="complete_all_fields">Por favor, completa todos los campos.</string>
+    <string name="login_error">Error al iniciar sesión, comprueba el email y la contraseña.</string>
+    <string name="google_signin_error">Error al iniciar sesión con Google:</string>
+    <string name="google_token_error">Error al obtener el token de Google.</string>
+
+
+    <string name="signup_welcome">Hola,</string>
+    <string name="signup_title">Crea una cuenta</string>
+    <string name="signup_name">Nombre</string>
+    <string name="signup_surname">Apellido</string>
+    <string name="signup_email">Correo Electrónico</string>
+    <string name="signup_password">Contraseña</string>
+    <string name="signup_error_empty_fields">Por favor, completa todos los campos.</string>
+    <string name="signup_error_registration">Error al registrarse: %1$s</string>
+    <string name="signup_already_have_account">¿Ya tienes una cuenta? </string>
+    <string name="signup_login">Iniciar sesión</string>
+    <string name="signup_register">Registrarse</string>
+
+    <string name="clickable_text_initial">Al continuar aceptas nuestra</string>
+    <string name="clickable_text_privacy_policy"> Política de Privacidad</string>
+    <string name="clickable_text_and"> y </string>
+    <string name="clickable_text_terms_of_use"> Términos de Uso</string>
+
+    <string name="or_text">O</string>
+    <string name="google_logo_desc">Logo de Google</string>
+    <string name="login_with_google">Iniciar sesión con Google</string>
+    <string name="select_language">Lengua seleccionada\n</string>
 
 </resources>

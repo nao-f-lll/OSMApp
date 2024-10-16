@@ -1,6 +1,7 @@
 package com.project.osmapp.ui.screens.signin
 
-import android.util.Log
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -45,7 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -196,36 +199,50 @@ fun CheckboxComponent() {
 
 @Composable
 fun ClickableTextComponent() {
-    val initialText = "Al continuar aceptas nuestra "
-    val privacyPolicyText = "Política de Privacidad"
-    val andText = " y "
-    val termOfUseText = "Términos de Uso"
+    val context = LocalContext.current  // Obtiene el contexto
+
+    // Textos traducidos para cada idioma
+    val initialText = stringResource(id = R.string.clickable_text_initial)
+    val privacyPolicyText = stringResource(id = R.string.clickable_text_privacy_policy)
+    val andText = stringResource(id = R.string.clickable_text_and)
+    val termOfUseText = stringResource(id = R.string.clickable_text_terms_of_use)
+
 
     val annotatedString = buildAnnotatedString {
-        withStyle(style = SpanStyle(color = TextColor)) {
+        withStyle(style = SpanStyle(color = Color.Black)) {
             append(initialText)
         }
-        withStyle(style = SpanStyle(color = Secondary)) {
-            pushStringAnnotation(tag = privacyPolicyText, annotation = privacyPolicyText)
+        withStyle(style = SpanStyle(color = Color.Blue)) {
+            pushStringAnnotation(tag = "privacy_policy", annotation = "https://olañeta.com/politica-privacidad-aviso-legal/")
             append(privacyPolicyText)
+            pop()
         }
-        withStyle(style = SpanStyle(color = TextColor)) {
+        withStyle(style = SpanStyle(color = Color.Black)) {
             append(andText)
         }
-        withStyle(style = SpanStyle(color = Secondary)) {
-            pushStringAnnotation(tag = termOfUseText, annotation = termOfUseText)
+        withStyle(style = SpanStyle(color = Color.Blue)) {
+            pushStringAnnotation(tag = "terms_of_use", annotation = "https://olañeta.com/politica-privacidad-aviso-legal/")
             append(termOfUseText)
+            pop()
         }
         append(".")
     }
 
-    ClickableText(text = annotatedString, onClick = {
-        annotatedString.getStringAnnotations(it, it)
-            .firstOrNull()?.also { annotation ->
-                Log.d("ClickableTextComponent", "Has clicado ${annotation.tag}")
+    // Componente de texto clicable
+    ClickableText(
+        text = annotatedString,
+        onClick = { offset ->
+            val annotations = annotatedString.getStringAnnotations(offset, offset)
+            if (annotations.isNotEmpty()) {
+                val annotation = annotations.first()
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(annotation.item))
+                context.startActivity(intent)
             }
-    })
+        }
+    )
 }
+
+
 
 
 @Composable
@@ -287,7 +304,7 @@ fun BottomComponent(
                     color = GrayColor
                 )
                 Text(
-                    text = "O",
+                    text = stringResource(id = R.string.or_text),
                     modifier = Modifier.padding(5.dp),
                     fontSize = 20.sp
                 )
@@ -326,11 +343,11 @@ fun BottomComponent(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.google_svg),
-                            contentDescription = "Google Logo",
+                            contentDescription = stringResource(id = R.string.google_logo_desc),
                             modifier = Modifier.size(30.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = "Iniciar sesión con Google", color = Color.White, fontSize = 20.sp)
+                        Text(text = stringResource(id = R.string.login_with_google), color = Color.White, fontSize = 20.sp)
                     }
                 }
             }
@@ -344,6 +361,7 @@ fun BottomComponent(
         }
     }
 }
+
 
 
 

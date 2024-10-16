@@ -33,6 +33,7 @@ playServicesAuth = "21.2.0"
 playServicesAuthVersion = "20.7.0"
 uiToolingPreviewVersion = "1.7.3"
 firebaseAuthKtx = "23.0.0"
+lifecycleProcess = "2.8.6"
 
 [libraries]
 accompanist-pager = { module = "com.google.accompanist:accompanist-pager", version.ref = "accompanistPager" }
@@ -81,6 +82,7 @@ ui-graphics = { module = "androidx.compose.ui:ui-graphics" }
 ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest" }
 ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
+androidx-lifecycle-process = { group = "androidx.lifecycle", name = "lifecycle-process", version.ref = "lifecycleProcess" }
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

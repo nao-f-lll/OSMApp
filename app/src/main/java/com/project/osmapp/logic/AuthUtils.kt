@@ -59,6 +59,7 @@ object AuthUtils {
     // Cerrar sesión
     fun signOut() {
         auth.signOut()
+        FirebaseAuth.getInstance().signOut()
     }
 
 }

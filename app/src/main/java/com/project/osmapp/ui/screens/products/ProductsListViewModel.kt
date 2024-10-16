@@ -1,6 +1,5 @@
 package com.project.osmapp.ui.screens.products
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.toObjects
@@ -22,7 +21,6 @@ class ProductsListViewModel : ViewModel() {
         db.collection(category)
             .addSnapshotListener { value, error ->
                 if (error != null) {
-                    Log.e("ProductsListViewModel", "Error fetching products", error)
                     return@addSnapshotListener
                 }
                 if (value != null) {

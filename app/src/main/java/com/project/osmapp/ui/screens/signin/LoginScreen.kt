@@ -25,9 +25,11 @@ import androidx.navigation.NavHostController
 import com.project.osmapp.logic.AuthUtils
 import androidx.compose.material3.Text
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.project.osmapp.R
 
 
 @Composable
@@ -36,7 +38,6 @@ fun LoginScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
 
-    // Configuración de Google Sign-In
     val context = LocalContext.current
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
         .requestIdToken("1025463367649-r9olsangeb3ojngmtr4rh3i13td2d2g5.apps.googleusercontent.com")  // Reemplaza con tu cliente web OAuth de Firebase
@@ -52,18 +53,16 @@ fun LoginScreen(navController: NavHostController) {
                 val account = task.getResult(ApiException::class.java)
                 val idToken = AuthUtils.getIdToken(account)
                 if (idToken != null) {
-                    // Llama a la función de inicio de sesión con Google
                     AuthUtils.signInWithGoogle(idToken) { loginResult, error ->
                         if (loginResult?.isSuccessful == true) {
-                            // Navega a la pantalla principal si el login con Google fue exitoso
                             navController.navigate("Profile")
                         } else {
-                            errorMessage = "Error al iniciar sesión con Google: $error"
+                            errorMessage = context.getString(R.string.google_signin_error) + error
                         }
                     }
                 }
             } catch (e: ApiException) {
-                errorMessage = "Error al obtener el token de Google."
+                errorMessage = context.getString(R.string.google_token_error)
             }
         }
     }
@@ -81,20 +80,20 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(bottom = 56.dp)
         ) {
             Column {
-                NormalTextComponent(value = "¡Hola!")
-                HeadingTextComponent(value = "Bienvenido de nuevo")
+                NormalTextComponent(value = stringResource(id = R.string.hello))
+                HeadingTextComponent(value = stringResource(id = R.string.welcome_back))
             }
             Spacer(modifier = Modifier.height(50.dp))
             Column {
                 MyTextFieldComponent(
-                    labelValue = "Correo Electrónico",
+                    labelValue = stringResource(id = R.string.email_label),
                     icon = Icons.Outlined.Email,
                     value = email,
                     onValueChange = { email = it }
                 )
                 Spacer(modifier = Modifier.height(10.dp))
                 PasswordTextFieldComponent(
-                    labelValue = "Contraseña",
+                    labelValue = stringResource(id = R.string.password_label),
                     icon = Icons.Outlined.Lock,
                     value = password,
                     onValueChange = { password = it }
@@ -108,21 +107,18 @@ fun LoginScreen(navController: NavHostController) {
             }
 
             BottomComponent(
-                textQuery = "¿No tienes una cuenta? ",
-                textClickable = "Regístrate",
-                action = "Iniciar Sesión",
+                textQuery = stringResource(id = R.string.no_account_question),
+                textClickable = stringResource(id = R.string.sign_up),
+                action = stringResource(id = R.string.login_action),
                 onClickPrimary = {
-                    // Comprobar si los campos estaan vacios
                     if (email.isEmpty() || password.isEmpty()) {
-                        errorMessage = "Por favor, completa todos los campos."
+                        errorMessage = context.getString(R.string.complete_all_fields)
                     } else {
-                        // Llama a la función de inicio de sesion con correo y contraseña
                         AuthUtils.loginWithEmail(email, password) { result, error ->
                             if (result?.isSuccessful == true) {
-                                // Navega a la pantalla principal si el login fue exitoso
                                 navController.navigate("Profile")
                             } else {
-                                errorMessage = "Error al iniciar sesión, comprueba el email y la contraseña."
+                                errorMessage = context.getString(R.string.login_error)
                             }
                         }
                     }

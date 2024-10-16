@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">OSMApp</string>
+
+    <string name="img_trend_1_title_es">LYLU</string>
+    <string name="img_trend_2_title_es">ANDAM</string>
+    <string name="img_trend_3_title_es">C´EST LA VIE</string>
+    <string name="img_trend_4_title_es">GARCIA JEANS</string>
+    <string name="img_trend_5_title_es">FREEMAN PORTER</string>
+    <string name="main_img_description">Main logo of the brand</string>
+
+    <string name="nav_title_home">Home</string>
+    <string name="nav_title_gallery">Products</string>
+    <string name="nav_title_contact">Contact</string>
+    <string name="nav_title_profile">Profile</string>
+
+    <string name="store_description">Olañeta store\n\nOlañeta store offers a wide variety of products and services, known for its customer service and commitment to quality.</string>
+    <string name="content_description_instagram">Instagram</string>
+    <string name="content_description_phone">Phone</string>
+    <string name="content_description_email">Email</string>
+    <string name="content_description_website">Website</string>
+    <string name="content_description_map">Simulated Map</string>
+
+    <string name="content_description_profile_picture">Profile Picture</string>
+    <string name="content_description_generic_picture">Generic Image</string>
+    <string name="welcome_user">Welcome, %1$s</string>
+    <string name="login_prompt">Hello! Please log in</string>
+    <string name="login_button">Log In</string>
+
+    <string name="unauthenticated_user">Unauthenticated user</string>
+    <string name="logout_button">Log Out</string>
+
+    <string name="login_title_spanish">Hello!</string>
+    <string name="login_welcome_spanish">Welcome back</string>
+    <string name="login_email_hint_spanish">Email Address</string>
+    <string name="login_password_hint_spanish">Password</string>
+    <string name="login_error_empty_fields_spanish">Please fill in all fields.</string>
+    <string name="login_error_login_spanish">Login error, please check your email and password.</string>
+    <string name="login_register_prompt_spanish">Dont have an account?</string>
+    <string name="login_register_action_spanish">Register</string>
+    <string name="login_google_error_spanish">Error logging in with Google: %s</string>
+    <string name="login_google_token_error_spanish">Error getting Google token.</string>
+
+    <string name="signup_title_spanish">Hello,</string>
+    <string name="signup_create_account_spanish">Create an account</string>
+    <string name="signup_name_hint_spanish">Name</string>
+    <string name="signup_surname_hint_spanish">Surname</string>
+    <string name="signup_email_hint_spanish">Email Address</string>
+    <string name="signup_password_hint_spanish">Password</string>
+    <string name="signup_error_empty_fields_spanish">Please fill in all fields.</string>
+    <string name="signup_register_error_spanish">Registration error: Unknown</string>
+    <string name="signup_login_prompt_spanish">Already have an account?</string>
+    <string name="signup_login_action_spanish">Log In</string>
+
+    <string name="hello">Hello!</string>
+    <string name="welcome_back">Welcome back</string>
+    <string name="email_label">Email Address</string>
+    <string name="password_label">Password</string>
+    <string name="no_account_question">Dont have an account?</string>
+    <string name="sign_up">Register</string>
+    <string name="login_action">Log In</string>
+    <string name="complete_all_fields">Please fill in all fields.</string>
+    <string name="login_error">Login error, please check your email and password.</string>
+    <string name="google_signin_error">Error logging in with Google:</string>
+    <string name="google_token_error">Error getting Google token.</string>
+
+    <string name="signup_welcome">Hello,</string>
+    <string name="signup_title">Create an account</string>
+    <string name="signup_name">Name</string>
+    <string name="signup_surname">Surname</string>
+    <string name="signup_email">Email Address</string>
+    <string name="signup_password">Password</string>
+    <string name="signup_error_empty_fields">Please fill in all fields.</string>
+    <string name="signup_error_registration">Registration error: %1$s</string>
+    <string name="signup_already_have_account">Already have an account?</string>
+    <string name="signup_login">Log In</string>
+    <string name="signup_register">Register</string>
+
+    <string name="clickable_text_initial">By continuing, you accept our</string>
+    <string name="clickable_text_privacy_policy"> Privacy Policy</string>
+    <string name="clickable_text_and"> and </string>
+    <string name="clickable_text_terms_of_use"> Terms of Use</string>
+
+    <string name="or_text">Or</string>
+    <string name="google_logo_desc">Google logo</string>
+    <string name="login_with_google">Log in with Google</string>
+    <string name="select_language">Selected Language\n</string>
+</resources>

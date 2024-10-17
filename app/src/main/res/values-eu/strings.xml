@@ -54,8 +54,7 @@
     <string name="welcome_back">Ongi etorri berriro</string>
     <string name="email_label">Posta Elektronikoa</string>
     <string name="password_label">Pasahitza</string>
-    <string name="no_account_question">Ez duzu konturik?</string>
-    <string name="sign_up">Erregistratu</string>
+      <string name="sign_up">Erregistratu</string>
     <string name="login_action">Saioa Hasi</string>
     <string name="complete_all_fields">Mesedez, bete guztiak.</string>
     <string name="login_error">Saio hasiera errorea, mesedez, egiaztatu zure posta elektronikoa eta pasahitza.</string>
@@ -70,17 +69,38 @@
     <string name="signup_password">Pasahitza</string>
     <string name="signup_error_empty_fields">Mesedez, bete guztiak.</string>
     <string name="signup_error_registration">Erregistratzean errorea: %1$s</string>
-    <string name="signup_already_have_account">Jada kontua duzu?</string>
+    <string name="signup_already_have_account">Jada kontua duzu?&#160;</string>
     <string name="signup_login">Saioa Hasi</string>
     <string name="signup_register">Erregistratu</string>
 
-    <string name="clickable_text_initial">Jarraituz, gure</string>
-    <string name="clickable_text_privacy_policy"> Pribatutasun Politika</string>
-    <string name="clickable_text_and"> eta </string>
-    <string name="clickable_text_terms_of_use"> Erabilera Baldintzak</string>
+    <string name="clickable_text_initial">Jarraituz, gure&#160;</string>
+    <string name="clickable_text_privacy_policy">Pribatutasun Politika&#160;</string>
+    <string name="clickable_text_and">eta&#160;</string>
+    <string name="clickable_text_terms_of_use">Erabilera Baldintzak</string>
 
     <string name="or_text">Edo</string>
     <string name="google_logo_desc">Google logotipoa</string>
     <string name="login_with_google">Saioa hasi Google-rekin</string>
     <string name="select_language">Hautatutako Hizkuntza\n</string>
+
+    <string name="warning_title">Abisua</string>
+    <string name="warning_message">Produktuak zure gogokoen zerrendan gehitzeko saioa hasi behar duzu.</string>
+    <string name="close_button">Itxi</string>
+
+    <string name="category_man">Gizona</string>
+    <string name="category_woman">Emakumea</string>
+    <string name="category_girl">Neska</string>
+    <string name="category_boy">Mutila</string>
+
+    <string name="premium_brands">Marka Premiumak</string>
+
+    <string name="navigation_home">Hasiera</string>
+    <string name="navigation_gallery">Produktuak</string>
+    <string name="navigation_contact">Kontaktua</string>
+    <string name="navigation_profile">Profil</string>
+
+    <string name="login">Saioa hasi</string>
+    <string name="signup">Izena eman</string>
+    <string name="no_account_question">Ez duzu konturik?&#160;</string>
+
 </resources>

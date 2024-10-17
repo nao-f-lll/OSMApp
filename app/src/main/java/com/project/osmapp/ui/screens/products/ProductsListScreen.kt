@@ -49,6 +49,8 @@ import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.domain.model.Product
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.ui.res.stringResource
+import com.project.osmapp.R
 import com.project.osmapp.domain.model.MiniFabItems
 import kotlinx.coroutines.tasks.await
 
@@ -64,11 +66,11 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text(text = "Advertencia") },
-            text = { Text("Debes iniciar sesión para agregar productos a tu lista de favoritos.") },
+            title = { Text(text = stringResource(id = R.string.warning_title)) },
+            text = { Text(stringResource(id = R.string.warning_message)) },
             confirmButton = {
                 Button(onClick = { showDialog = false }) {
-                    Text("Cerrar")
+                    Text(stringResource(id = R.string.close_button))
                 }
             }
         )
@@ -222,28 +224,36 @@ fun checkInternetConnection(context: Context): Boolean {
 fun FloatActionHandler(viewModel: ProductsListViewModel = viewModel()) {
     var expanded by remember { mutableStateOf(false) }
     val items = listOf(
-        MiniFabItems(Icons.Filled.Person, "Hombre"),
-        MiniFabItems(Icons.Filled.Person, "Mujer"),
-        MiniFabItems(Icons.Filled.Face, "Niña"),
-        MiniFabItems(Icons.Filled.Face, "Niño")
+        MiniFabItems(Icons.Filled.Person, stringResource(id = R.string.category_man)),
+        MiniFabItems(Icons.Filled.Person, stringResource(id = R.string.category_woman)),
+        MiniFabItems(Icons.Filled.Face, stringResource(id = R.string.category_girl)),
+        MiniFabItems(Icons.Filled.Face, stringResource(id = R.string.category_boy))
     )
+
     Column(horizontalAlignment = Alignment.End) {
         AnimatedVisibility(
             visible = expanded,
             enter = fadeIn() + slideInVertically(initialOffsetY = { it }) + expandVertically(),
             exit = fadeOut() + slideOutVertically(targetOffsetY = { it }) + shrinkVertically()
         ) {
-            LazyColumn(Modifier.padding(bottom = 8.dp)) {
-                items(items.size) { index ->
-                    val item = items[index]
-                    ItemUi(icon = item.icon, title = item.title) {
-                        viewModel.updateCategory(item.title.lowercase())
-                        expanded = false
+            Box(
+                modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .widthIn(max = 250.dp)  // Limita el ancho del menú
+            ) {
+                LazyColumn {
+                    items(items.size) { index ->
+                        val item = items[index]
+                        ItemUi(icon = item.icon, title = item.title) {
+                            viewModel.updateCategory(item.title.lowercase())
+                            expanded = false
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
                     }
-                    Spacer(modifier = Modifier.height(8.dp))
                 }
             }
         }
+
         val transition = updateTransition(targetState = expanded, label = "transition")
         val rotation by transition.animateFloat(label = "rotation") {
             if (it) 315f else 0f
@@ -261,24 +271,37 @@ fun FloatActionHandler(viewModel: ProductsListViewModel = viewModel()) {
     }
 }
 
+
 @Composable
 fun ItemUi(icon: ImageVector, title: String, onClick: () -> Unit) {
     val context = LocalContext.current
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.End) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.End
+    ) {
         Spacer(modifier = Modifier.weight(1f))
         Box(
             modifier = Modifier
                 .border(1.dp, Color.Gray, RoundedCornerShape(24.dp))
                 .padding(1.dp)
-                .background(Color.LightGray, CircleShape)
+                .background(Color.LightGray, RoundedCornerShape(24.dp))
         ) {
-            Text(text = title)
+            Text(
+                text = title,
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clickable { onClick() }
+            )
         }
         Spacer(modifier = Modifier.width(10.dp))
-        FloatingActionButton(onClick = {
-            onClick()
-            Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
-        }, modifier = Modifier.size(45.dp), containerColor = Color.LightGray) {
+        FloatingActionButton(
+            onClick = {
+                onClick()
+                Toast.makeText(context, title, Toast.LENGTH_SHORT).show()
+            },
+            modifier = Modifier.size(45.dp),
+            containerColor = Color.LightGray
+        ) {
             Icon(imageVector = icon, contentDescription = "")
         }
     }

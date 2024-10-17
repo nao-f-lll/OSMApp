@@ -260,11 +260,14 @@ fun BottomNavigationBar(navController: NavHostController) {
     )
 
     NavigationBar {
+        // Obtener la ruta actual
         val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
+
+        // Iterar sobre los elementos de navegación
         items.forEach { item ->
             NavigationBarItem(
-                icon = { Icon(item.icon, contentDescription = item.title) },
-                label = { Text(item.title) },
+                icon = { Icon(item.icon, contentDescription = stringResource(item.title)) },
+                label = { Text(text = stringResource(item.title)) },
                 selected = currentRoute == item.route,
                 onClick = {
                     if (currentRoute != item.route) {

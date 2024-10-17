@@ -94,7 +94,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit.v115)
     androidTestImplementation(libs.androidx.espresso.core.v351)
     androidTestImplementation(platform(libs.androidx.compose.bom.v20230300))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
     implementation(libs.androidx.navigation.compose.v282)
@@ -104,4 +104,5 @@ dependencies {
     implementation(libs.androidx.compose.ui.ui.tooling.preview)
     implementation(libs.androidx.activity.compose.v172)
     implementation(libs.coil.compose.v222)
+    implementation(libs.androidx.lifecycle.process.v261)
 }

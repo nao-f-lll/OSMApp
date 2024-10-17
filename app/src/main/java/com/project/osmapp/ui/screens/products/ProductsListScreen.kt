@@ -49,8 +49,20 @@ import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.domain.model.Product
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.ui.tooling.preview.Preview
 import com.project.osmapp.domain.model.MiniFabItems
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+
+
+@Preview
+@Composable
+fun ProductsListScreenPreview() {
+    ProductsListScreen(NavHostController(LocalContext.current))
+}
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -118,6 +130,7 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
 @Composable
 fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
     var isLiked by remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
 
     LaunchedEffect(userId, product.id) {
         isLiked = checkIfProductIsLiked(userId, product.id)
@@ -172,11 +185,13 @@ fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialo
                     if (userId == "unknown") {
                         setShowDialog(true)
                     } else {
-                        isLiked = !isLiked
-                        if (isLiked) {
-                            addProductToFavorites(userId, product.id)
-                        } else {
-                            removeProductFromFavorites(userId, product.id)
+                        scope.launch {
+                            isLiked = !isLiked
+                            if (isLiked) {
+                                addProductToFavorites(userId, product.id)
+                            } else {
+                                removeProductFromFavorites(userId, product.id)
+                            }
                         }
                     }
                 }
@@ -184,20 +199,23 @@ fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialo
     }
 }
 
-
-fun addProductToFavorites(userId: String, productId: String) {
-    val db = FirebaseFirestore.getInstance()
-    val favorite = hashMapOf("productId" to productId)
-    db.collection("usuario-productos").document(userId)
-        .collection("favoritos").document(productId)
-        .set(favorite)
+suspend fun addProductToFavorites(userId: String, productId: String) {
+    withContext(Dispatchers.IO) {
+        val db = FirebaseFirestore.getInstance()
+        val favorite = hashMapOf("productId" to productId)
+        db.collection("usuario-productos").document(userId)
+            .collection("favoritos").document(productId)
+            .set(favorite).await()
+    }
 }
 
-fun removeProductFromFavorites(userId: String, productId: String) {
-    val db = FirebaseFirestore.getInstance()
-    db.collection("usuario-productos").document(userId)
-        .collection("favoritos").document(productId)
-        .delete()
+suspend fun removeProductFromFavorites(userId: String, productId: String) {
+    withContext(Dispatchers.IO) {
+        val db = FirebaseFirestore.getInstance()
+        db.collection("usuario-productos").document(userId)
+            .collection("favoritos").document(productId)
+            .delete().await()
+    }
 }
 
 suspend fun checkIfProductIsLiked(userId: String, productId: String): Boolean {

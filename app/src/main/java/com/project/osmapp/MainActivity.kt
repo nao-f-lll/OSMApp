@@ -2,7 +2,6 @@ package com.project.osmapp
 
 import android.content.ComponentCallbacks2
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge

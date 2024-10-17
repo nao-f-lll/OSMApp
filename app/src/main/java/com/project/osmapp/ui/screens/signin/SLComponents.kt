@@ -386,9 +386,15 @@ fun AccountQueryComponent(
     ClickableText(text = annonatedString, onClick = {
         annonatedString.getStringAnnotations(it, it)
             .firstOrNull()?.also { annonation ->
-                if (annonation.item == "Iniciar sesión") {
+                if (annonation.item == "Iniciar sesión" ||
+                    annonation.item == "Saioa Hasi" ||
+                    annonation.item == "Login") {
+                    navController.popBackStack() // Cerrar la actividad actual
                     navController.navigate("Login")
-                } else if (annonation.item == "Regístrate") {
+                } else if (annonation.item == "Regístrate" ||
+                    annonation.item == "Erregistratu" ||
+                    annonation.item == "Register") {
+                    navController.popBackStack() // Cerrar la actividad actual
                     navController.navigate("Signup")
                 }
             }

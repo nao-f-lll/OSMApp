@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.project.osmapp.R
 import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.components.BottomNavigationBar
 import com.project.osmapp.components.Marcas
@@ -53,7 +55,7 @@ fun HomeScreen(navController: NavHostController) {
         Spacer(modifier = Modifier.height(6.dp)) // Añade un espacio de 16dp de alto
 
         Text(
-            text = "Marcas Premium",
+            text = stringResource(id = R.string.premium_brands),
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = Color.Black,
                 fontSize = 20.sp

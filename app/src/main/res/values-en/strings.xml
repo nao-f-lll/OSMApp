@@ -24,7 +24,7 @@
     <string name="content_description_generic_picture">Generic Image</string>
     <string name="welcome_user">Welcome, %1$s</string>
     <string name="login_prompt">Hello! Please log in</string>
-    <string name="login_button">Log In</string>
+    <string name="login_button">Login</string>
 
     <string name="unauthenticated_user">Unauthenticated user</string>
     <string name="logout_button">Log Out</string>
@@ -35,7 +35,7 @@
     <string name="login_password_hint_spanish">Password</string>
     <string name="login_error_empty_fields_spanish">Please fill in all fields.</string>
     <string name="login_error_login_spanish">Login error, please check your email and password.</string>
-    <string name="login_register_prompt_spanish">Dont have an account?</string>
+    <string name="login_register_prompt_spanish">Dont have an account? &#160;</string>
     <string name="login_register_action_spanish">Register</string>
     <string name="login_google_error_spanish">Error logging in with Google: %s</string>
     <string name="login_google_token_error_spanish">Error getting Google token.</string>
@@ -49,13 +49,12 @@
     <string name="signup_error_empty_fields_spanish">Please fill in all fields.</string>
     <string name="signup_register_error_spanish">Registration error: Unknown</string>
     <string name="signup_login_prompt_spanish">Already have an account?</string>
-    <string name="signup_login_action_spanish">Log In</string>
+    <string name="signup_login_action_spanish">Login</string>
 
     <string name="hello">Hello!</string>
     <string name="welcome_back">Welcome back</string>
     <string name="email_label">Email Address</string>
     <string name="password_label">Password</string>
-    <string name="no_account_question">Dont have an account?</string>
     <string name="sign_up">Register</string>
     <string name="login_action">Log In</string>
     <string name="complete_all_fields">Please fill in all fields.</string>
@@ -71,17 +70,40 @@
     <string name="signup_password">Password</string>
     <string name="signup_error_empty_fields">Please fill in all fields.</string>
     <string name="signup_error_registration">Registration error: %1$s</string>
-    <string name="signup_already_have_account">Already have an account?</string>
-    <string name="signup_login">Log In</string>
-    <string name="signup_register">Register</string>
+    <string name="signup_already_have_account">Already have an account? &#160;</string>
+    <string name="signup_login">Login</string>
+    <string name="signup_register">&#160;Register</string>
 
     <string name="clickable_text_initial">By continuing, you accept our</string>
-    <string name="clickable_text_privacy_policy"> Privacy Policy</string>
-    <string name="clickable_text_and"> and </string>
+    <string name="clickable_text_privacy_policy">&#160;Privacy Policy&#160;</string>
+    <string name="clickable_text_and"> and &#160;</string>
     <string name="clickable_text_terms_of_use"> Terms of Use</string>
 
     <string name="or_text">Or</string>
     <string name="google_logo_desc">Google logo</string>
     <string name="login_with_google">Log in with Google</string>
     <string name="select_language">Selected Language\n</string>
+
+    <string name="warning_title">Warning</string>
+    <string name="warning_message">You must log in to add products to your favorites list.</string>
+    <string name="close_button">Close</string>
+
+    <string name="category_man">Man</string>
+    <string name="category_woman">Woman</string>
+    <string name="category_girl">Girl</string>
+    <string name="category_boy">Boy</string>
+
+    <string name="premium_brands">Premium Brands</string>
+
+    <string name="navigation_home">Home</string>
+    <string name="navigation_gallery">Products</string>
+    <string name="navigation_contact">Contact</string>
+    <string name="navigation_profile">Profile</string>
+
+
+    <string name="login">Login</string>
+    <string name="signup">Sign up</string>
+    <string name="no_account_question">Don`t have an account?&#160; </string>
+
+
 </resources>

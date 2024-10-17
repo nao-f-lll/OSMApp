@@ -55,8 +55,7 @@
     <string name="welcome_back">Bienvenido de nuevo</string>
     <string name="email_label">Correo Electrónico</string>
     <string name="password_label">Contraseña</string>
-    <string name="no_account_question">¿No tienes una cuenta?</string>
-    <string name="sign_up">Regístrate</string>
+    <string name="sign_up"> Regístrate</string>
     <string name="login_action">Iniciar Sesión</string>
     <string name="complete_all_fields">Por favor, completa todos los campos.</string>
     <string name="login_error">Error al iniciar sesión, comprueba el email y la contraseña.</string>
@@ -72,18 +71,37 @@
     <string name="signup_password">Contraseña</string>
     <string name="signup_error_empty_fields">Por favor, completa todos los campos.</string>
     <string name="signup_error_registration">Error al registrarse: %1$s</string>
-    <string name="signup_already_have_account">¿Ya tienes una cuenta? </string>
+    <string name="signup_already_have_account">¿Ya tienes una cuenta?&#160;</string>
     <string name="signup_login">Iniciar sesión</string>
     <string name="signup_register">Registrarse</string>
 
-    <string name="clickable_text_initial">Al continuar aceptas nuestra</string>
-    <string name="clickable_text_privacy_policy"> Política de Privacidad</string>
-    <string name="clickable_text_and"> y </string>
-    <string name="clickable_text_terms_of_use"> Términos de Uso</string>
+    <string name="clickable_text_initial">Al continuar aceptas nuestra&#160;</string>
+    <string name="clickable_text_privacy_policy">Política de Privacidad&#160;</string>
+    <string name="clickable_text_and">y&#160;</string>
+    <string name="clickable_text_terms_of_use">Términos de Uso</string>
 
     <string name="or_text">O</string>
     <string name="google_logo_desc">Logo de Google</string>
     <string name="login_with_google">Iniciar sesión con Google</string>
     <string name="select_language">Lengua seleccionada\n</string>
 
+    <string name="warning_title">Advertencia</string>
+    <string name="warning_message">Debes iniciar sesión para agregar productos a tu lista de favoritos.</string>
+    <string name="close_button">Cerrar</string>
+
+    <string name="category_man">Hombre</string>
+    <string name="category_woman">Mujer</string>
+    <string name="category_girl">Niña</string>
+    <string name="category_boy">Niño</string>
+
+    <string name="premium_brands">Marcas Premium</string>
+
+    <string name="navigation_home">Inicio</string>
+    <string name="navigation_gallery">Productos</string>
+    <string name="navigation_contact">Contacto</string>
+    <string name="navigation_profile">Perfil</string>
+
+    <string name="login">Iniciar sesión</string>
+    <string name="signup">Regístrate</string>
+    <string name="no_account_question">¿No tienes una cuenta?&#160;</string>
 </resources>

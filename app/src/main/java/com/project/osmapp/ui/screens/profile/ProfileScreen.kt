@@ -80,7 +80,7 @@ fun ProfileScreen(navController: NavHostController) {
 
             // Sección de perfil
             ProfileHeader(
-                userName = user?.email ?: stringResource(id = R.string.unauthenticated_user),
+                userName = user?.email?.substringBefore("@") ?: stringResource(id = R.string.unauthenticated_user),
                 profileImageUrl = user?.photoUrl?.toString(),
                 isLoggedIn = isLoggedIn,
                 onLoginClick = {
@@ -90,8 +90,6 @@ fun ProfileScreen(navController: NavHostController) {
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Selector de idioma
-            // Selector de idioma
             Text(text = stringResource(id = R.string.select_language))
             Row {
                 Button(onClick = { languageViewModel.setLanguage("es") }) {
@@ -106,7 +104,7 @@ fun ProfileScreen(navController: NavHostController) {
                     Text(text = "Euskara")
                 }
             }
-            Spacer(modifier = Modifier.height(360.dp))
+            Spacer(modifier = Modifier.height(280.dp))
 
             // Botón de cerrar sesión si está autenticado
             if (isLoggedIn) {
@@ -125,5 +123,6 @@ fun ProfileScreen(navController: NavHostController) {
             }
         }
     }
+
 }
 

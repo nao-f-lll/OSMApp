@@ -150,7 +150,7 @@ fun SignupScreen(navController: NavHostController) {
                         if (result != null && result.isSuccessful) {
                             navController.navigate("Profile")
                         } else {
-                            errorMessage = "Error al registrarse: ${"Desconocido"}"
+                            errorMessage = "Error al registrarse: $error"
                         }
                     }
                 },

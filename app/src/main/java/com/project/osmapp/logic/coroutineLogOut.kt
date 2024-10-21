@@ -13,7 +13,7 @@ class SessionViewModel : ViewModel() {
         sessionTimeoutJob?.cancel() // Cancelar cualquier trabajo anterior
         sessionTimeoutJob = viewModelScope.launch {
             delay(120_000) // Espera 2 minutos
-            onTimeout() // Cierra sesión
+            onTimeout() // Cierra sesion
         }
     }
 

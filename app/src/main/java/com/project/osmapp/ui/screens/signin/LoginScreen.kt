@@ -5,10 +5,13 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Lock
@@ -24,12 +27,14 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.project.osmapp.logic.AuthUtils
 import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.project.osmapp.R
+import com.project.osmapp.components.BackArrow
 
 
 @Composable
@@ -40,32 +45,34 @@ fun LoginScreen(navController: NavHostController) {
 
     val context = LocalContext.current
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken("1025463367649-r9olsangeb3ojngmtr4rh3i13td2d2g5.apps.googleusercontent.com")  // Reemplaza con tu cliente web OAuth de Firebase
+        .requestIdToken(context.getString(R.string.default_web_client_id))
         .requestEmail()
         .build()
 
     val googleSignInClient = GoogleSignIn.getClient(context, gso)
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = AuthUtils.getIdToken(account)
-                if (idToken != null) {
-                    AuthUtils.signInWithGoogle(idToken) { loginResult, error ->
-                        if (loginResult?.isSuccessful == true) {
-                            navController.navigate("Profile")
-                        } else {
-                            errorMessage = context.getString(R.string.google_signin_error) + error
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    val idToken = AuthUtils.getIdToken(account)
+                    if (idToken != null) {
+                        AuthUtils.signInWithGoogle(idToken) { loginResult, error ->
+                            if (loginResult?.isSuccessful == true) {
+                                navController.navigate("Profile")
+                            } else {
+                                errorMessage =
+                                    context.getString(R.string.google_signin_error) + error
+                            }
                         }
                     }
+                } catch (e: ApiException) {
+                    errorMessage = context.getString(R.string.google_token_error)
                 }
-            } catch (e: ApiException) {
-                errorMessage = context.getString(R.string.google_token_error)
             }
         }
-    }
 
     Surface(
         color = Color.White,
@@ -80,7 +87,20 @@ fun LoginScreen(navController: NavHostController) {
                 .padding(bottom = 56.dp)
         ) {
             Column {
-                NormalTextComponent(value = stringResource(id = R.string.hello))
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(16.dp)
+                ) {
+                    BackArrow(
+                        navController = navController,
+                        modifier = Modifier.offset(x = (-29).dp)
+                    )
+                    Spacer(modifier = Modifier.width(1.dp))
+                    NormalTextComponent(value = stringResource(id = R.string.hello))
+                }
+
+
                 HeadingTextComponent(value = stringResource(id = R.string.welcome_back))
             }
             Spacer(modifier = Modifier.height(50.dp))
@@ -101,7 +121,7 @@ fun LoginScreen(navController: NavHostController) {
             }
             Spacer(modifier = Modifier.weight(1f))
 
-            // Mostrar mensaje de error si existe
+
             if (errorMessage.isNotEmpty()) {
                 Text(text = errorMessage, color = Color.Red)
             }
@@ -124,7 +144,7 @@ fun LoginScreen(navController: NavHostController) {
                     }
                 },
                 onClickGoogle = {
-                    // Inicia el flujo de inicio de sesion de Google
+                    
                     val signInIntent = googleSignInClient.signInIntent
                     launcher.launch(signInIntent)
                 },

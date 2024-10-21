@@ -59,7 +59,10 @@ import kotlinx.coroutines.withContext
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun ProductsListScreen(navController: NavHostController, viewModel: ProductsListViewModel = viewModel()) {
+fun ProductsListScreen(
+    navController: NavHostController,
+    viewModel: ProductsListViewModel = viewModel()
+) {
     val products by viewModel.productList.collectAsStateWithLifecycle()
     val context = LocalContext.current
     val isConnected = remember { mutableStateOf(checkInternetConnection(context)) }
@@ -97,7 +100,7 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
             ) {
                 items(products) { product ->
                     product?.let {
-                        GridItem(it, userId, showDialog, setShowDialog = { showDialog = it })
+                        GridItem(it, userId, setShowDialog = { showDialog = it })
                     }
                 }
             }
@@ -119,8 +122,13 @@ fun ProductsListScreen(navController: NavHostController, viewModel: ProductsList
         }
     }
 }
+
 @Composable
-fun GridItem(product: Product, userId: String, showDialog: Boolean, setShowDialog: (Boolean) -> Unit) {
+fun GridItem(
+    product: Product,
+    userId: String,
+    setShowDialog: (Boolean) -> Unit
+) {
     var isLiked by remember { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
 
@@ -219,7 +227,8 @@ suspend fun checkIfProductIsLiked(userId: String, productId: String): Boolean {
 }
 
 fun checkInternetConnection(context: Context): Boolean {
-    val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val connectivityManager =
+        context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val network = connectivityManager.activeNetwork ?: return false
     val activeNetwork = connectivityManager.getNetworkCapabilities(network) ?: return false
     return when {
@@ -248,7 +257,7 @@ fun FloatActionHandler(viewModel: ProductsListViewModel = viewModel()) {
             Box(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
-                    .widthIn(max = 250.dp)  // Limita el ancho del menú
+                    .widthIn(max = 250.dp)
             ) {
                 LazyColumn {
                     items(items.size) { index ->

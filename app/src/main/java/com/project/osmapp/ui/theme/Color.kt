@@ -3,7 +3,7 @@ package com.project.osmapp.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
-val Black = Color(0x00000000)
+val Black = Color(0x00000001)
 
 val Pink80 = Color(0xFFEFB8C8)
 

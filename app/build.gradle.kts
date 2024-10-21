@@ -105,4 +105,6 @@ dependencies {
     implementation(libs.androidx.activity.compose.v172)
     implementation(libs.coil.compose.v222)
     implementation(libs.androidx.lifecycle.process.v261)
+    implementation("androidx.core:core-splashscreen:1.0.1")
+
 }

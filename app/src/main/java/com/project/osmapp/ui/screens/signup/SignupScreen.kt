@@ -5,10 +5,14 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -22,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -32,6 +37,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.project.osmapp.R
+import com.project.osmapp.components.BackArrow
 import com.project.osmapp.logic.AuthUtils
 import com.project.osmapp.ui.screens.signin.BottomComponent
 import com.project.osmapp.ui.screens.signin.CheckboxComponent
@@ -48,39 +54,44 @@ fun SignupScreen(navController: NavHostController) {
     var password by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
 
-    // Configuración de Google Sign-In
+    val context = LocalContext.current
+    val activity = LocalContext.current as Activity
+
+
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken("1025463367649-r9olsangeb3ojngmtr4rh3i13td2d2g5.apps.googleusercontent.com")
+        .requestIdToken(context.getString(R.string.default_web_client_id))
         .requestEmail()
         .build()
 
     val googleSignInClient = GoogleSignIn.getClient(LocalContext.current, gso)
 
-    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-            try {
-                val account = task.getResult(ApiException::class.java)
-                val idToken = account.idToken // Obtiene el ID token
-                if (idToken != null) {
-                    // Llama a la función de inicio de sesión con Google
-                    AuthUtils.signInWithGoogle(idToken) { loginResult, error ->
-                        if (loginResult?.isSuccessful == true) {
-                            navController.navigate("Profile")
-                        } else {
-                            errorMessage = "Error al iniciar sesión con Google: ${error ?: "Desconocido"}"
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+                try {
+                    val account = task.getResult(ApiException::class.java)
+                    val idToken = account.idToken // Obtiene el ID token
+                    if (idToken != null) {
+                        // Llama a la función de inicio de sesión con Google
+                        AuthUtils.signInWithGoogle(idToken) { loginResult, error ->
+                            if (loginResult?.isSuccessful == true) {
+                                navController.navigate("Profile")
+                            } else {
+                                errorMessage =
+                                    "Error al iniciar sesión con Google: ${error ?: "Desconocido"}"
+                            }
                         }
+                    } else {
+                        errorMessage = "El ID token es nulo."
                     }
-                } else {
-                    errorMessage = "El ID token es nulo."
+                } catch (e: ApiException) {
+                    errorMessage = "Error al obtener el token de Google: ${e.message}"
                 }
-            } catch (e: ApiException) {
-                errorMessage = "Error al obtener el token de Google: ${e.message}"
+            } else {
+                errorMessage = "Resultado de inicio de sesión con Google no fue exitoso."
             }
-        } else {
-            errorMessage = "Resultado de inicio de sesión con Google no fue exitoso."
         }
-    }
 
     Surface(
         color = Color.White,
@@ -92,11 +103,23 @@ fun SignupScreen(navController: NavHostController) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()) // Habilitar scroll
+                .verticalScroll(rememberScrollState())
         ) {
-            NormalTextComponent(value = stringResource(id = R.string.signup_welcome))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                BackArrow(
+                    navController = navController,
+                    modifier = Modifier.offset(x = (-16).dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                NormalTextComponent(value = stringResource(id = R.string.signup_welcome))
+            }
+
             HeadingTextComponent(value = stringResource(id = R.string.signup_title))
             Spacer(modifier = Modifier.height(20.dp))
+
 
             MyTextFieldComponent(
                 labelValue = stringResource(id = R.string.signup_name),
@@ -132,20 +155,18 @@ fun SignupScreen(navController: NavHostController) {
             }
 
             CheckboxComponent()
-            Spacer(modifier = Modifier.height(4.dp)) // Espacio reducido
+            Spacer(modifier = Modifier.height(4.dp))
 
             BottomComponent(
                 textQuery = stringResource(id = R.string.signup_already_have_account),
                 textClickable = stringResource(id = R.string.signup_login),
                 action = stringResource(id = R.string.signup_register),
                 onClickPrimary = {
-                    // Validar campos
                     if (name.isEmpty() || surname.isEmpty() || email.isEmpty() || password.isEmpty()) {
                         errorMessage = "Por favor, completa todos los campos."
                         return@BottomComponent
                     }
 
-                    // Llamada a la función de registro con correo electrónico
                     AuthUtils.registerWithEmail(email, password) { result, error ->
                         if (result != null && result.isSuccessful) {
                             navController.navigate("Profile")
@@ -155,7 +176,6 @@ fun SignupScreen(navController: NavHostController) {
                     }
                 },
                 onClickGoogle = {
-                    // Iniciar el proceso de inicio de sesión con Google
                     val signInIntent = googleSignInClient.signInIntent
                     launcher.launch(signInIntent)
                 },

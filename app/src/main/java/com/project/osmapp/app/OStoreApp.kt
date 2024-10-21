@@ -13,7 +13,8 @@ import com.project.osmapp.logic.SetupNavigation
 fun OStoreApp() {
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White) {
+        color = Color.White
+    ) {
         val navController = rememberNavController()
         SetupNavigation(navController)
     }

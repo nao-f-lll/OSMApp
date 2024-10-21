@@ -36,6 +36,7 @@ fun HomeScreen() {
 
     }
 }
+
 /*Menu de navegacion*/
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
@@ -52,7 +53,7 @@ fun HomeScreen(navController: NavHostController) {
             ScreenOrientationComponent()
 
         }
-        Spacer(modifier = Modifier.height(6.dp)) // Añade un espacio de 16dp de alto
+        Spacer(modifier = Modifier.height(6.dp))
 
         Text(
             text = stringResource(id = R.string.premium_brands),

@@ -40,7 +40,7 @@ fun ContactScreen(navController: NavHostController) {
         }
 
         // Iconos de redes sociales
-        SocialMediaIconsComponent(Modifier)
+        SocialMediaIconsComponent()
 
         BottomNavigationBar(navController)
     }

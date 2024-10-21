@@ -109,7 +109,12 @@ fun HeadingTextComponent(value: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyTextFieldComponent(labelValue: String, icon: ImageVector, value: String, onValueChange: (String) -> Unit) {
+fun MyTextFieldComponent(
+    labelValue: String,
+    icon: ImageVector,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         label = {
             Text(text = labelValue)
@@ -137,10 +142,14 @@ fun MyTextFieldComponent(labelValue: String, icon: ImageVector, value: String, o
 }
 
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasswordTextFieldComponent(labelValue: String, icon: ImageVector, value: String, onValueChange: (String) -> Unit) {
+fun PasswordTextFieldComponent(
+    labelValue: String,
+    icon: ImageVector,
+    value: String,
+    onValueChange: (String) -> Unit
+) {
     var isPasswordVisible by remember { mutableStateOf(false) }
 
     OutlinedTextField(
@@ -166,7 +175,8 @@ fun PasswordTextFieldComponent(labelValue: String, icon: ImageVector, value: Str
             )
         },
         trailingIcon = {
-            val iconImage = if (isPasswordVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
+            val iconImage =
+                if (isPasswordVisible) Icons.Outlined.Visibility else Icons.Outlined.VisibilityOff
             val description = if (isPasswordVisible) "Mostrar Contraseña" else "Ocultar Contraseña"
             IconButton(onClick = { isPasswordVisible = !isPasswordVisible }) {
                 Icon(imageVector = iconImage, contentDescription = description)
@@ -199,7 +209,7 @@ fun CheckboxComponent() {
 
 @Composable
 fun ClickableTextComponent() {
-    val context = LocalContext.current  // Obtiene el contexto
+    val context = LocalContext.current
 
     // Textos traducidos para cada idioma
     val initialText = stringResource(id = R.string.clickable_text_initial)
@@ -213,7 +223,10 @@ fun ClickableTextComponent() {
             append(initialText)
         }
         withStyle(style = SpanStyle(color = Color.Blue)) {
-            pushStringAnnotation(tag = "privacy_policy", annotation = "https://olañeta.com/politica-privacidad-aviso-legal/")
+            pushStringAnnotation(
+                tag = "privacy_policy",
+                annotation = "https://olañeta.com/politica-privacidad-aviso-legal/"
+            )
             append(privacyPolicyText)
             pop()
         }
@@ -221,7 +234,10 @@ fun ClickableTextComponent() {
             append(andText)
         }
         withStyle(style = SpanStyle(color = Color.Blue)) {
-            pushStringAnnotation(tag = "terms_of_use", annotation = "https://olañeta.com/politica-privacidad-aviso-legal/")
+            pushStringAnnotation(
+                tag = "terms_of_use",
+                annotation = "https://olañeta.com/politica-privacidad-aviso-legal/"
+            )
             append(termOfUseText)
             pop()
         }
@@ -243,15 +259,13 @@ fun ClickableTextComponent() {
 }
 
 
-
-
 @Composable
 fun BottomComponent(
     textQuery: String,
     textClickable: String,
     action: String,
-    onClickPrimary: () -> Unit,    // Lambda para el botón principal
-    onClickGoogle: () -> Unit,     // Lambda para el botón de Google
+    onClickPrimary: () -> Unit,
+    onClickGoogle: () -> Unit,
     navController: NavHostController
 ) {
 
@@ -269,9 +283,8 @@ fun BottomComponent(
                 .padding(bottom = 20.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Botón principal de acción
             Button(
-                onClick = onClickPrimary, // Botón principal usa su propio onClick
+                onClick = onClickPrimary,
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(Color.Transparent)
             ) {
@@ -291,7 +304,6 @@ fun BottomComponent(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Divisores
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
@@ -319,9 +331,8 @@ fun BottomComponent(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Botón de Google que ocupa todo el ancho
             Button(
-                onClick = onClickGoogle, // Botón de Google usa su propio onClick
+                onClick = onClickGoogle,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp),
@@ -347,24 +358,23 @@ fun BottomComponent(
                             modifier = Modifier.size(30.dp)
                         )
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text(text = stringResource(id = R.string.login_with_google), color = Color.White, fontSize = 20.sp)
+                        Text(
+                            text = stringResource(id = R.string.login_with_google),
+                            color = Color.White,
+                            fontSize = 20.sp
+                        )
                     }
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Componente para consultar la cuenta
             AccountQueryComponent(textQuery, textClickable, navController)
 
             Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
-
-
-
-
 
 
 @Composable
@@ -388,12 +398,14 @@ fun AccountQueryComponent(
             .firstOrNull()?.also { annonation ->
                 if (annonation.item == "Iniciar sesión" ||
                     annonation.item == "Saioa Hasi" ||
-                    annonation.item == "Login") {
+                    annonation.item == "Login"
+                ) {
                     navController.popBackStack() // Cerrar la actividad actual
                     navController.navigate("Login")
                 } else if (annonation.item == "Regístrate" ||
                     annonation.item == "Erregistratu" ||
-                    annonation.item == "Register") {
+                    annonation.item == "Register"
+                ) {
                     navController.popBackStack() // Cerrar la actividad actual
                     navController.navigate("Signup")
                 }

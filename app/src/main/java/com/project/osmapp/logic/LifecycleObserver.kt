@@ -1,4 +1,5 @@
 package com.project.osmapp.logic
+
 import android.Manifest
 import android.app.Activity
 import android.app.NotificationChannel
@@ -27,7 +28,7 @@ class AppLifecycleObserver(
     override fun onStop(owner: LifecycleOwner) {
         super.onStop(owner)
         viewModel.startSessionTimeout {
-            // Después de 2 minutos de inactividad, cerrar sesión y mostrar notificación
+            // Despuus de 2 minutos de inactividad, cerrar sesion y mostrar notificacion
             AuthUtils.signOut()
             showLogoutNotification("La sesión se ha cerrado por inactividad en la app.")
         }
@@ -45,17 +46,17 @@ class AppLifecycleObserver(
     private fun showLogoutNotification(message: String) {
         createNotificationChannel()
 
-        // Comprobar si tenemos el permiso para mostrar notificaciones
+        // Comprobar el permiso para mostrar notificaciones
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.POST_NOTIFICATIONS
                 ) != PackageManager.PERMISSION_GRANTED
             ) {
-                // Si el contexto es una actividad, solicitar el permiso
+                // Si el contexto es una actividad solicitar el permiso
                 if (context is Activity) {
                     ActivityCompat.requestPermissions(
-                        context as Activity,
+                        context,
                         arrayOf(Manifest.permission.POST_NOTIFICATIONS),
                         NOTIFICATION_PERMISSION_REQUEST_CODE
                     )
@@ -76,7 +77,7 @@ class AppLifecycleObserver(
     }
 
     private fun createNotificationChannel() {
-        // Crear el canal de notificación solo para API 26+
+        // Crear el canal de notificacion solo para API 26+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name = "Cierre de sesión"
             val descriptionText = "Notificación cuando la sesión se cierra por inactividad"

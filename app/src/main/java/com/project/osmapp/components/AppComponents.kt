@@ -25,8 +25,10 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -55,10 +57,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.project.osmapp.R
 import kotlinx.coroutines.delay
@@ -67,11 +69,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun TopBarComponent() {
-    Box(modifier = Modifier
-        .height(80.dp)
-        .fillMaxWidth()
-        .background(Color.White),
-    contentAlignment = Alignment.BottomCenter
+    Box(
+        modifier = Modifier
+            .height(80.dp)
+            .fillMaxWidth()
+            .background(Color.White),
+        contentAlignment = Alignment.BottomCenter
     ) {
         Image(
             painter = painterResource(id = R.drawable.olanyeta_full_size_logo),
@@ -79,13 +82,13 @@ fun TopBarComponent() {
             modifier = Modifier
                 .size(200.dp)
                 .padding(top = 30.dp),
-            )
+        )
     }
 }
 
 @Composable
 fun ScreenOrientationComponent() {
-   val config = LocalConfiguration.current
+    val config = LocalConfiguration.current
     if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
         TrendImageListComponentPortrateLayout()
     }
@@ -129,14 +132,15 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
         Box(modifier = modifier.wrapContentSize()) {
             HorizontalPager(
                 state = pagerState,
-                modifier .fillMaxWidth(0.9f)
+                modifier
+                    .fillMaxWidth(0.9f)
                     .height(480.dp)
             ) { currentPage ->
                 Card(
                     modifier
                         .wrapContentSize()
                         .padding(26.dp)
-                        .height(480.dp) ,
+                        .height(480.dp),
                     elevation = CardDefaults.cardElevation(8.dp)
                 ) {
                     Box {
@@ -184,14 +188,15 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                 )
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight, contentDescription = "",
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                    contentDescription = "",
                     modifier.fillMaxSize(),
                     tint = Color.LightGray
                 )
             }
             IconButton(
                 onClick = {
-                    val prevPage = pagerState.currentPage -1
+                    val prevPage = pagerState.currentPage - 1
                     if (prevPage >= 0) {
                         scope.launch {
                             pagerState.scrollToPage(prevPage)
@@ -208,7 +213,8 @@ fun TrendImageListComponentPortrateLayout(modifier: Modifier = Modifier) {
                 )
             ) {
                 Icon(
-                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft, contentDescription = "",
+                    imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
+                    contentDescription = "",
                     modifier.fillMaxSize(),
                     tint = Color.LightGray
                 )
@@ -233,8 +239,8 @@ fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = modifier
     ) {
-        repeat(pageCount){
-            IndicatorDots(isSelected = it == currentPage, modifier= modifier)
+        repeat(pageCount) {
+            IndicatorDots(isSelected = it == currentPage, modifier = modifier)
         }
     }
 }
@@ -242,10 +248,12 @@ fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier) {
 @Composable
 fun IndicatorDots(isSelected: Boolean, modifier: Modifier) {
     val size = animateDpAsState(targetValue = if (isSelected) 12.dp else 10.dp, label = "")
-    Box(modifier = modifier.padding(2.dp)
-        .size(size.value)
-        .clip(CircleShape)
-        .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
+    Box(
+        modifier = modifier
+            .padding(2.dp)
+            .size(size.value)
+            .clip(CircleShape)
+            .background(if (isSelected) Color(0xff373737) else Color(0xA8373737))
     )
 }
 
@@ -300,7 +308,7 @@ fun StoreDescription() {
             )
     ) {
         Text(
-            text =    stringResource(id = R.string.store_description),
+            text = stringResource(id = R.string.store_description),
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = Color.Black,
                 fontSize = 16.sp
@@ -313,11 +321,12 @@ fun StoreDescription() {
 
 
 @Composable
-fun SocialMediaIconsComponent(modifier: Modifier) {
+fun SocialMediaIconsComponent() {
     val context = LocalContext.current
 
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
             .padding(bottom = 20.dp),
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -370,7 +379,8 @@ fun SocialMediaIconsComponent(modifier: Modifier) {
                         Intent.ACTION_VIEW,
                         Uri.parse("https://olañeta.com")
                     )
-                    context.startActivity(intent) }
+                    context.startActivity(intent)
+                }
         )
     }
 }
@@ -433,7 +443,7 @@ fun ProfileHeader(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        // Texto con el nombre o mensaje genérico
+
         Text(
             text = if (isLoggedIn) {
                 stringResource(id = R.string.welcome_user, userName)
@@ -493,10 +503,12 @@ fun Marcas(modifier: Modifier = Modifier) {
             ) { currentPage ->
 
                 val scale by animateFloatAsState(
-                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.9f
+                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.9f,
+                    label = ""
                 )
                 val alpha by animateFloatAsState(
-                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.5f
+                    targetValue = if (pagerState.currentPage == currentPage) 1f else 0.5f,
+                    label = ""
                 )
 
                 Card(
@@ -517,5 +529,22 @@ fun Marcas(modifier: Modifier = Modifier) {
                 }
             }
         }
+    }
+}
+
+@Composable
+fun BackArrow(
+    navController: NavController,
+    modifier: Modifier = Modifier
+) {
+    IconButton(
+        onClick = { navController.popBackStack() },
+        modifier = modifier
+    ) {
+        Icon(
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+            contentDescription = null,
+            tint = Color.Black
+        )
     }
 }

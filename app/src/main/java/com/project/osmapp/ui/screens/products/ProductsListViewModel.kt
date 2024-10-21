@@ -16,9 +16,23 @@ class ProductsListViewModel : ViewModel() {
         getProductList("hombre")
     }
 
-     fun getProductList(category: String) {
+    fun getProductList(category: String) {
         val db = Firebase.firestore
-        db.collection(category)
+
+
+        val translatedCategory = when (category) {
+            "men" -> "hombre"
+            "woman" -> "mujer"
+            "boy" -> "niño"
+            "girl" -> "niña"
+            "gizona" -> "hombre"
+            "emakumea" -> "mujer"
+            "mutila" -> "niño"
+            "neska" -> "niña"
+            else -> category
+        }
+
+        db.collection(translatedCategory)
             .addSnapshotListener { value, error ->
                 if (error != null) {
                     return@addSnapshotListener

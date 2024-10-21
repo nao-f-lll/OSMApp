@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import com.project.osmapp.app.OStoreApp
@@ -14,6 +15,10 @@ import com.project.osmapp.logic.AppLifecycleObserver
 import com.project.osmapp.logic.AuthUtils
 import com.project.osmapp.logic.SessionViewModel
 import com.project.osmapp.ui.theme.OSMAppTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     private lateinit var sessionViewModel: SessionViewModel
@@ -26,9 +31,7 @@ class MainActivity : ComponentActivity() {
         val lifecycleObserver = AppLifecycleObserver(sessionViewModel, this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(lifecycleObserver)
 
-
         enableEdgeToEdge()
-
 
         setContent {
             OSMAppTheme {
@@ -39,11 +42,10 @@ class MainActivity : ComponentActivity() {
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            AuthUtils.signOut() // Cierra sesión cuando la UI no es visible
+            AuthUtils.signOut()
         }
     }
 }
-
 // Vista previa de la aplicación
 @Preview(showBackground = true)
 @Composable

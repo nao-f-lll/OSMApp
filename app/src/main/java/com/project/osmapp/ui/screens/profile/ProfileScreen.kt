@@ -1,13 +1,10 @@
 package com.project.osmapp.ui.screens.profile
 
 import android.annotation.SuppressLint
-import android.content.Context
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -28,7 +25,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.project.osmapp.R
@@ -38,7 +34,6 @@ import com.project.osmapp.components.TopBarComponent
 import com.project.osmapp.logic.AuthUtils
 import com.project.osmapp.logic.LanguageViewModel
 import com.project.osmapp.logic.LanguageViewModelFactory
-import com.project.osmapp.logic.restartActivity
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -56,20 +51,18 @@ fun ProfileScreen(navController: NavHostController) {
     // Estado para forzar la recomposición
     var languageChanged by remember { mutableStateOf(false) }
 
-    // Obtenemos el usuario actual
+    // Obtengo el usuario actual
     val user = AuthUtils.getCurrentUser()
     val isLoggedIn = user != null
 
     // Usar LaunchedEffect para escuchar el cambio de idioma
     LaunchedEffect(currentLanguage) {
-        // Forzar la recomposición cuando cambie el idioma
+        // Forzar la recomposicion cuando cambie el idioma
         languageChanged = true
     }
 
 
-    Scaffold(
-        bottomBar = { BottomNavigationBar(navController) }
-    ) {
+    Scaffold(bottomBar = { BottomNavigationBar(navController) }) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -78,15 +71,15 @@ fun ProfileScreen(navController: NavHostController) {
         ) {
             TopBarComponent()
 
-            // Sección de perfil
-            ProfileHeader(
-                userName = user?.email?.substringBefore("@") ?: stringResource(id = R.string.unauthenticated_user),
+
+            // Seccion de perfil
+            ProfileHeader(userName = user?.email?.substringBefore("@")
+                ?: stringResource(id = R.string.unauthenticated_user),
                 profileImageUrl = user?.photoUrl?.toString(),
                 isLoggedIn = isLoggedIn,
                 onLoginClick = {
                     navController.navigate("Login")
-                }
-            )
+                })
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -106,18 +99,16 @@ fun ProfileScreen(navController: NavHostController) {
             }
             Spacer(modifier = Modifier.height(280.dp))
 
-            // Botón de cerrar sesión si está autenticado
+            // Boton de cerrar sesion si esta autenticado
             if (isLoggedIn) {
                 Button(
                     onClick = {
-                        AuthUtils.signOut() // Llama a la función para cerrar sesión
+                        AuthUtils.signOut()
                         navController.navigate("home")
-                    },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    }, colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                 ) {
                     Text(
-                        text = stringResource(id = R.string.logout_button),
-                        color = Color.White
+                        text = stringResource(id = R.string.logout_button), color = Color.White
                     )
                 }
             }
